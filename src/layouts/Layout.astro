@@ -1,26 +1,114 @@
 ---
+import '@fontsource/anton/400.css';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource/caveat-brush/400.css';
+import '@fontsource-variable/dm-sans';
 import '../styles/global.css';
+import { site, contact, metrics, roundK, es } from '../data/site';
 
-interface Props {
-	title?: string;
-	description?: string;
-}
+const title = es('seo_title');
+const description = es('seo_desc');
 
-const { title = 'byfla', description = 'byfla' } = Astro.props;
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Person',
+			'@id': `${site.url}/#person`,
+			name: site.name,
+			alternateName: contact.instagram.handle.slice(1),
+			description: `Creadora de contenido UGC y lifestyle con ${roundK(metrics.tiktokFollowers)} seguidores en TikTok. Especializada en moda, viajes, comida y música.`,
+			url: site.url,
+			email: contact.email,
+			telephone: contact.phone,
+			address: { '@type': 'PostalAddress', addressLocality: 'Arequipa', addressCountry: 'PE' },
+			sameAs: [contact.instagram.url, contact.tiktok.url],
+			knowsAbout: ['Content Creation', 'UGC', 'Fashion', 'Lifestyle', 'Travel', 'Food', 'Music'],
+			hasOccupation: {
+				'@type': 'Occupation',
+				name: 'Creadora de Contenido UGC',
+				occupationLocation: { '@type': 'City', name: 'Arequipa, Perú' },
+			},
+		},
+		{
+			'@type': 'WebSite',
+			'@id': `${site.url}/#website`,
+			url: site.url,
+			name: 'Flavia López — Portafolio',
+			description: 'Portafolio profesional de Flavia López, creadora de contenido UGC en Arequipa, Perú.',
+			inLanguage: 'es-PE',
+		},
+	],
+};
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" class="no-js">
 	<head>
-		<meta charset="utf-8" />
+		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script is:inline>
+			(function () {
+				var d = document.documentElement;
+				d.classList.remove('no-js');
+				d.classList.add('js');
+				var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+				if (!reduced) {
+					d.classList.add('intro-on');
+					// La intro sale en cada carga: la página arranca siempre desde arriba
+					if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+					// Red de seguridad: si el script principal no carga, la intro no bloquea la página.
+					window.__introFallback = setTimeout(function () {
+						d.classList.remove('intro-on');
+						d.classList.add('hero-ready');
+					}, 6000);
+				} else {
+					d.classList.add('hero-ready');
+				}
+			})();
+		</script>
+
+		<title>{title}</title>
+		<meta name="title" content={title} />
 		<meta name="description" content={description} />
+		<meta name="keywords" content="Flavia López, creadora de contenido, UGC, influencer, Arequipa, Perú, TikTok, Instagram, moda, lifestyle, colaboraciones" />
+		<meta name="author" content={site.name} />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href={site.url} />
+		<meta name="theme-color" content="#7a1238" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={site.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={site.ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content="es_PE" />
+		<meta property="og:site_name" content={site.name} />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content={contact.instagram.handle} />
+		<meta name="twitter:creator" content={contact.instagram.handle} />
+		<meta name="twitter:url" content={site.url} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={site.ogImage} />
+
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="preload" as="image" href="/images/foto1.jpg" fetchpriority="high" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	</head>
 	<body>
+		<a class="skip-link" href="#main" data-i18n="skip">{es('skip')}</a>
 		<slot />
+		<script>
+			import '../scripts/motion';
+		</script>
 	</body>
 </html>
