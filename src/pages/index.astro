@@ -1,20 +1,49 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Intro from '../components/Intro.astro';
+import Header from '../components/Header.astro';
+import Cursor from '../components/Cursor.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import About from '../components/About.astro';
+import Numbers from '../components/Numbers.astro';
+import Work from '../components/Work.astro';
+import Brands from '../components/Brands.astro';
+import Prices from '../components/Prices.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { marquees } from '../data/site';
 ---
 
-<Layout title="byfla">
-	<main>
-		<h1>byfla</h1>
-		<p>Próximamente.</p>
+<Layout>
+	<Intro />
+	<Header />
+	<Cursor />
+	<main id="main">
+		<Hero />
+		<div class="crossed">
+			<Marquee items={marquees.heroA} tone="cherry" variant="display" tilt={-2.5} speed={34} />
+			<Marquee items={marquees.heroB} tone="pink" variant="serif" tilt={1.5} speed={40} reverse class="crossed__b" />
+		</div>
+		<About />
+		<Numbers />
+		<Work />
+		<Marquee items={marquees.work} tone="butter" variant="display" tilt={-1.5} speed={36} />
+		<Brands />
+		<Prices />
+		<Contact />
 	</main>
+	<Footer />
 </Layout>
 
 <style>
-	main {
-		min-height: 100vh;
-		display: grid;
-		place-content: center;
-		text-align: center;
-		padding: 1rem;
+	.crossed {
+		position: relative;
+		z-index: 3;
+		padding-block: 28px 12px;
+	}
+
+	.crossed :global(.crossed__b) {
+		margin-top: -18px;
 	}
 </style>
