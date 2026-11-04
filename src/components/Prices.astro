@@ -1,0 +1,267 @@
+---
+import { prices, es } from '../data/site';
+---
+
+<section id="tarifas" class="section prices">
+	<div class="container">
+		<header class="prices__head">
+			<p class="eyebrow" data-reveal="up"><span data-i18n="rates_eyebrow">{es('rates_eyebrow')}</span></p>
+			<h2 class="h-section" data-reveal="up">
+				<span data-i18n="rates_h1">{es('rates_h1')}</span>{' '}
+				<em data-i18n="rates_h2">{es('rates_h2')}</em>
+			</h2>
+			<p class="lead" data-reveal="up" data-i18n="rates_desc">{es('rates_desc')}</p>
+		</header>
+
+		<ul class="prices__grid" data-stagger="0.1">
+			{
+				prices.map((p) => (
+					<li
+						class:list={['pcard', `pcard--${p.tone}`, { 'pcard--featured': 'featured' in p }]}
+						data-reveal="tilt"
+						data-tilt="8"
+						style={`--r:${p.r}deg;--tilt:${p.r * 4 - 3}deg`}
+					>
+						{'featured' in p && (
+							<span class="sticker sticker--butter pcard__fav alive" data-reveal="pop" style="--r:8deg;--d:0.7s;--wd:0.5s" data-i18n="rates_fav">
+								{es('rates_fav')}
+							</span>
+						)}
+						{'platformKey' in p ? (
+							<span class="pcard__platform" data-i18n={p.platformKey}>{es(p.platformKey)}</span>
+						) : (
+							<span class="pcard__platform">{p.platform}</span>
+						)}
+						<h3 class="pcard__name" data-i18n={p.nameKey}>{es(p.nameKey)}</h3>
+						{'subKey' in p && <p class="pcard__sub" data-i18n={p.subKey}>{es(p.subKey)}</p>}
+						<p class="pcard__desc" data-i18n={p.descKey}>{es(p.descKey)}</p>
+						<p class="pcard__note" data-i18n={p.noteKey}>{es(p.noteKey)}</p>
+						{'featured' in p && (
+							<p class="sticker sticker--ink pcard__saving" style="--r:-3deg" data-i18n="rates_saving">
+								{es('rates_saving')}
+							</p>
+						)}
+						<div class="pcard__foot">
+							<p class="pcard__price">
+								<span class="pcard__cur">USD</span>
+								<span class="pcard__amount">${p.price}</span>
+							</p>
+							<a class="btn btn--paper btn--sm" href="#contacto" data-pick={p.select}>
+								<span data-i18n="rates_want">{es('rates_want')}</span>
+								<span class="btn__arrow" aria-hidden="true">→</span>
+							</a>
+						</div>
+					</li>
+				))
+			}
+			<li class="prices__custom" data-reveal="up">
+				<span class="prices__custom-note" data-i18n="rates_custom_note">{es('rates_custom_note')}</span>
+				<div>
+					<h3 class="prices__custom-title" data-i18n="rates_custom_title">{es('rates_custom_title')}</h3>
+					<p data-i18n="rates_custom_desc">{es('rates_custom_desc')}</p>
+					<p class="prices__small" data-i18n="rates_negotiate">{es('rates_negotiate')}</p>
+				</div>
+				<a class="btn btn--butter" href="#contacto" data-pick="paquete" data-magnetic="0.3">
+					<span data-i18n="rates_custom_btn">{es('rates_custom_btn')}</span>
+					<span class="btn__arrow" aria-hidden="true">→</span>
+				</a>
+			</li>
+		</ul>
+
+
+		<p class="prices__travel" data-reveal="up">
+			<strong data-i18n="rates_note_label">{es('rates_note_label')}</strong>
+			<span data-i18n="rates_note">{es('rates_note')}</span>
+		</p>
+	</div>
+</section>
+
+<style>
+	.prices__head .lead {
+		margin-top: 18px;
+	}
+
+	.prices__grid {
+		display: grid;
+		gap: 26px;
+		margin-top: 56px;
+	}
+
+	.pcard {
+		--bg: var(--paper);
+		--fg: var(--ink);
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 26px 24px 22px;
+		border: var(--line);
+		border-radius: var(--radius);
+		background: var(--bg);
+		color: var(--fg);
+		box-shadow: 6px 6px 0 var(--ink);
+	}
+
+	.pcard:hover {
+		box-shadow: 12px 12px 0 var(--ink);
+	}
+
+	.pcard--sky { --bg: var(--sky); }
+	.pcard--butter { --bg: var(--butter); }
+	.pcard--pink { --bg: var(--pink); }
+	.pcard--cherry { --bg: var(--cherry); --fg: var(--cream); }
+	.pcard--tomato { --bg: var(--tomato); --fg: var(--paper); }
+	.pcard--leaf { --bg: var(--leaf); --fg: var(--cream); }
+
+	.pcard__platform {
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		opacity: 0.85;
+	}
+
+	.pcard__name {
+		font-family: var(--font-display);
+		font-weight: 400;
+		text-transform: uppercase;
+		font-size: clamp(3rem, 12vw, 4.6rem);
+		line-height: 0.88;
+		margin-top: 2px;
+	}
+
+	.pcard__sub {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 1.3rem;
+		line-height: 1.1;
+	}
+
+	.pcard__desc {
+		margin-top: 6px;
+		font-weight: 600;
+	}
+
+	.pcard__note {
+		font-family: var(--font-hand);
+		font-size: 1.35rem;
+		line-height: 1.15;
+		opacity: 0.9;
+	}
+
+	.pcard__saving {
+		align-self: flex-start;
+		margin-top: 6px;
+		font-size: 0.9rem;
+	}
+
+	.pcard__foot {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 14px;
+		margin-top: auto;
+		padding-top: 20px;
+	}
+
+	.pcard__price {
+		display: flex;
+		align-items: baseline;
+		gap: 6px;
+		line-height: 0.9;
+	}
+
+	.pcard__cur {
+		font-size: 0.85rem;
+		font-weight: 800;
+	}
+
+	.pcard__amount {
+		font-family: var(--font-display);
+		font-size: clamp(2.8rem, 9vw, 3.6rem);
+	}
+
+	.pcard__fav {
+		position: absolute;
+		top: -20px;
+		right: 14px;
+		z-index: 2;
+		font-size: 0.9rem;
+		color: var(--ink);
+	}
+
+	.prices__custom {
+		position: relative;
+		display: grid;
+		gap: 18px;
+		align-items: center;
+		margin-top: 14px;
+		padding: 34px 26px 28px;
+		border: 3px dashed var(--ink);
+		border-radius: var(--radius);
+		background: var(--paper);
+	}
+
+	.prices__custom-title {
+		font-family: var(--font-display);
+		font-weight: 400;
+		text-transform: uppercase;
+		font-size: clamp(2rem, 6vw, 3rem);
+		line-height: 0.95;
+		margin-bottom: 8px;
+	}
+
+	.prices__custom-note {
+		position: absolute;
+		top: -22px;
+		left: 22px;
+		padding: 0 8px;
+		background: var(--cream);
+		font-family: var(--font-hand);
+		font-size: 1.8rem;
+		color: var(--tomato);
+		rotate: -4deg;
+	}
+
+	.prices__small {
+		margin-top: 6px;
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+	}
+
+	.prices__travel {
+		margin-top: 22px;
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+	}
+
+	@media (min-width: 720px) {
+		.prices__grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.prices__custom {
+			grid-column: 1 / -1;
+			grid-template-columns: 1fr auto;
+			padding: 38px 40px 34px;
+		}
+	}
+
+	@media (min-width: 1080px) {
+		.prices__grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 30px;
+		}
+
+		.pcard--featured,
+		.prices__custom {
+			grid-column: span 2;
+		}
+
+		.prices__custom {
+			margin-top: 0;
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
