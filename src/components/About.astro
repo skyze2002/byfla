@@ -1,0 +1,305 @@
+---
+import { aboutPhotos, niches, gear, metrics, es } from '../data/site';
+import { publicAsset } from '../data/assets';
+import Scribble from './Scribble.astro';
+
+const photos = aboutPhotos.map((p) => ({ ...p, src: publicAsset(p.src) }));
+---
+
+<section id="sobre-mi" class="section about">
+	<div class="container about__grid">
+		<div class="about__collage" data-stagger="0.15">
+			{
+				photos.map((p, i) => (
+					<figure
+						class={`polaroid about__ph about__ph--${i + 1}`}
+						data-reveal="tilt"
+						data-parallax={p.parallax}
+						style={`--r:${p.r}deg;--tilt:${p.r - 9}deg;--fallback:var(--${p.tone})`}
+					>
+						<span class="tape" aria-hidden="true" style={`--tape-r:${i % 2 ? 5 : -5}deg`} />
+						{p.src ? (
+							<img
+								class="polaroid__img"
+								src={p.src}
+								width={p.w}
+								height={p.h}
+								alt={es(p.altKey)}
+								data-i18n-alt={p.altKey}
+								loading="lazy"
+								decoding="async"
+							/>
+						) : (
+							<div class="polaroid__img about__empty" aria-hidden="true">
+								<span>♡</span>
+							</div>
+						)}
+						<figcaption class="polaroid__cap" data-i18n={p.captionKey}>{es(p.captionKey)}</figcaption>
+					</figure>
+				))
+			}
+
+			<div class="sticker sticker--cherry sticker--round about__years alive" data-reveal="pop" style="--r:9deg;--d:0.55s;--wd:0.4s">
+				<strong class="about__years-num" data-count={metrics.yearsCreating} data-suffix="+">{metrics.yearsCreating}+</strong>
+				<span data-i18n="about_years">{es('about_years')}</span>
+			</div>
+		</div>
+
+		<div class="about__text">
+			<p class="eyebrow" data-reveal="up"><span data-i18n="about_eyebrow">{es('about_eyebrow')}</span></p>
+			<h2 class="h-section about__title" data-reveal="up">
+				<span data-i18n="about_title_1">{es('about_title_1')}</span>{' '}
+				<em data-i18n="about_title_2">{es('about_title_2')}</em>{' '}
+				<Scribble k="about_title_3" d="0.5s" />
+			</h2>
+
+			<div class="about__copy" data-stagger="0.1">
+				<p data-reveal="up" data-i18n="about_bio">{es('about_bio')}</p>
+				<p data-reveal="up" data-i18n="about_p2">{es('about_p2')}</p>
+				<p data-reveal="up" data-i18n="about_p3">{es('about_p3')}</p>
+				<p data-reveal="up" data-i18n="about_brands">{es('about_brands')}</p>
+			</div>
+
+			<h3 class="about__label hand" data-reveal="up" data-i18n="about_niches_label">{es('about_niches_label')}</h3>
+			<ul class="about__niches" data-stagger="0.07">
+				{
+					niches.map((n) => (
+						<li class={`sticker sticker--${n.tone}`} data-reveal="pop" style={`--r:${n.r}deg`} data-i18n={n.key}>
+							{es(n.key)}
+						</li>
+					))
+				}
+			</ul>
+
+			<h3 class="about__label hand" data-reveal="up" data-i18n="about_gear_title">{es('about_gear_title')}</h3>
+			<ul class="about__gear" data-stagger="0.12">
+				{
+					gear.map((g, i) => (
+						<li class="gear" data-reveal="up" data-tilt="10" style={`--r:${i ? 1.5 : -1.5}deg`}>
+							<span class="gear__rec">
+								<i aria-hidden="true" />
+								<span data-i18n="rec">{es('rec')}</span>
+							</span>
+							<span class="gear__icon" aria-hidden="true">{g.icon}</span>
+							<strong class="gear__name">{g.name}</strong>
+							<span class="gear__desc" data-i18n={g.descKey}>{es(g.descKey)}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.about__grid {
+		display: grid;
+		gap: 72px;
+	}
+
+	/* Collage */
+	.about__collage {
+		position: relative;
+		min-height: clamp(420px, 110vw, 620px);
+	}
+
+	.about__ph {
+		position: absolute;
+		margin: 0;
+	}
+
+	.about__ph--1 {
+		top: 4%;
+		left: 4%;
+		width: 62%;
+		z-index: 2;
+	}
+
+	.about__ph--2 {
+		top: 0;
+		right: 2%;
+		width: 40%;
+		padding-bottom: 44px;
+		z-index: 1;
+	}
+
+	.about__ph--3 {
+		bottom: 0;
+		right: 6%;
+		width: 42%;
+		padding-bottom: 44px;
+		z-index: 3;
+	}
+
+	.about__empty {
+		display: grid;
+		place-items: center;
+		font-family: var(--font-hand);
+		font-size: 3rem;
+		color: var(--paper);
+	}
+
+	.about__years {
+		position: absolute;
+		left: 0;
+		bottom: 4%;
+		z-index: 4;
+		width: clamp(116px, 26vw, 150px);
+		gap: 0;
+		font-size: 0.85rem;
+		line-height: 1.1;
+	}
+
+	.about__years-num {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(2.4rem, 6vw, 3.2rem);
+		line-height: 1;
+		color: var(--butter);
+	}
+
+	/* Texto */
+	.about__title {
+		font-size: clamp(3rem, 8vw, 6.2rem);
+	}
+
+	.about__copy {
+		display: grid;
+		gap: 16px;
+		margin-top: 28px;
+		max-width: 60ch;
+		color: var(--ink-soft);
+	}
+
+	.about__copy p:first-child {
+		font-size: 1.15em;
+		color: var(--ink);
+	}
+
+	.about__label {
+		margin-top: 40px;
+		font-size: 1.9rem;
+		color: var(--cherry);
+	}
+
+	.about__niches {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px 10px;
+		margin-top: 14px;
+	}
+
+	.about__niches .sticker {
+		font-size: 1.05rem;
+		padding: 0.55em 1.1em;
+		cursor: default;
+	}
+
+	.about__niches .sticker:global(.in) {
+		transition: transform 0.35s var(--ease-pop);
+	}
+
+	.about__niches .sticker:global(.in):hover {
+		transform: rotate(var(--r)) scale(1.12);
+	}
+
+	.about__gear {
+		display: grid;
+		gap: 14px;
+		margin-top: 14px;
+	}
+
+	.gear {
+		position: relative;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 2px 14px;
+		align-items: center;
+		padding: 18px 20px;
+		border: var(--line);
+		border-radius: var(--radius);
+		background: var(--paper);
+		box-shadow: var(--shadow);
+	}
+
+	.gear:hover {
+		box-shadow: var(--shadow-lg);
+	}
+
+	.gear__icon {
+		grid-row: span 2;
+		display: grid;
+		place-items: center;
+		width: 52px;
+		height: 52px;
+		border: var(--line);
+		border-radius: 14px;
+		background: var(--sky);
+		font-size: 1.6rem;
+	}
+
+	.gear:nth-child(2) .gear__icon {
+		background: var(--pink);
+	}
+
+	.gear__name {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: 1.45rem;
+		letter-spacing: 0.01em;
+		text-transform: uppercase;
+		line-height: 1.05;
+	}
+
+	.gear__desc {
+		font-size: 0.95rem;
+		color: var(--ink-soft);
+	}
+
+	/* Etiqueta tipo cámara: sobresale del borde para no pisar el nombre */
+	.gear__rec {
+		position: absolute;
+		top: -13px;
+		right: 18px;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 5px 11px 5px 9px;
+		border: 2px solid var(--ink);
+		border-radius: 999px;
+		background: var(--ink);
+		color: var(--cream);
+		font-size: 0.7rem;
+		font-weight: 800;
+		line-height: 1;
+		letter-spacing: 0.14em;
+		rotate: 3deg;
+	}
+
+	.gear__rec i {
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: var(--tomato);
+		box-shadow: 0 0 0 2px rgb(229 72 47 / 0.35);
+		animation: rec 1.2s steps(1) infinite;
+	}
+
+	@media (min-width: 720px) {
+		.about__gear {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.about__grid {
+			grid-template-columns: 0.95fr 1.05fr;
+			gap: 80px;
+			align-items: center;
+		}
+
+		.about__collage {
+			min-height: 680px;
+		}
+	}
+</style>
