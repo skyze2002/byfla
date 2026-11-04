@@ -1,0 +1,431 @@
+---
+import { portfolio, categories, platforms, contact, es } from '../data/site';
+import { publicAsset } from '../data/assets';
+
+const items = portfolio.map((it, i) => ({
+	...it,
+	cover: publicAsset(`/images/portfolio/${it.id}.jpg`),
+	r: i % 2 ? 1.5 : -1.5,
+	catKey: categories.find((c) => c.id === it.category)?.key,
+}));
+
+// Solo categorías con contenido, con su conteo
+const filters = [
+	{ id: 'todo', key: 'filter_all', count: items.length },
+	...categories
+		.map((c) => ({ id: c.id, key: c.key, count: items.filter((it) => it.category === c.id).length }))
+		.filter((c) => c.count > 0),
+];
+---
+
+<section id="portafolio" class="section work">
+	<div class="container">
+		<header class="work__head">
+			<p class="eyebrow" data-reveal="up"><span data-i18n="portfolio_eyebrow">{es('portfolio_eyebrow')}</span></p>
+			<h2 class="h-section" data-reveal="up">
+				<span data-i18n="portfolio_h1">{es('portfolio_h1')}</span>{' '}
+				<em data-i18n="portfolio_h2">{es('portfolio_h2')}</em>
+			</h2>
+			<p class="lead" data-reveal="up" data-i18n="portfolio_desc">{es('portfolio_desc')}</p>
+		</header>
+
+		<div class="filters" data-filters role="tablist" data-i18n-aria="portfolio_filters" aria-label={es('portfolio_filters')} data-reveal="up">
+			<span class="filters__pill" aria-hidden="true"></span>
+			{
+				filters.map((f, i) => (
+					<button
+						class="filters__tab"
+						type="button"
+						role="tab"
+						data-filter={f.id}
+						aria-selected={i === 0 ? 'true' : 'false'}
+						aria-controls="work-grid"
+						tabindex={i === 0 ? 0 : -1}
+					>
+						<span data-i18n={f.key}>{es(f.key)}</span>
+						<sup class="filters__count">{f.count}</sup>
+					</button>
+				))
+			}
+		</div>
+
+		<ul id="work-grid" class="work__grid" data-grid role="tabpanel" data-stagger="0.07">
+			{
+				items.map((it) => (
+					<li
+						class={`wcard wcard--${it.tone}`}
+						data-cat={it.category}
+						data-reveal="tilt"
+						data-tilt="10"
+						data-cursor
+						style={`--r:${it.r}deg;--tilt:${it.r * 4}deg`}
+					>
+						<button
+							class="wcard__btn"
+							type="button"
+							data-embed={it.embed}
+							data-platform={it.platform}
+							data-title={es(it.titleKey)}
+						>
+							<span class="wcard__media" aria-hidden="true">
+								{it.cover ? (
+									<img src={it.cover} width="540" height="960" alt="" loading="lazy" decoding="async" />
+								) : (
+									<span class="wcard__symbol">{platforms[it.platform].symbol}</span>
+								)}
+							</span>
+							<span class="wcard__top">
+								<span class={`sticker sticker--${platforms[it.platform].tone} wcard__platform`}>{platforms[it.platform].name}</span>
+								{it.catKey && (
+									<span class="wcard__cat" data-i18n={it.catKey}>
+										{es(it.catKey)}
+									</span>
+								)}
+							</span>
+							<span class="wcard__play" aria-hidden="true">
+								<span class="wcard__ping" />
+								<span class="wcard__tri">▶</span>
+							</span>
+							<span class="wcard__title" data-i18n={it.titleKey}>{es(it.titleKey)}</span>
+							<span class="sr-only" data-i18n="work_play">{es('work_play')}</span>
+						</button>
+					</li>
+				))
+			}
+		</ul>
+
+		<div class="work__cta" data-reveal="up">
+			<p class="hand" data-i18n="portfolio_cta_text">{es('portfolio_cta_text')}</p>
+			<div class="work__cta-btns">
+				<a class="btn" href={contact.tiktok.url} target="_blank" rel="noopener" data-magnetic="0.3">
+					<span data-i18n="portfolio_tt">{es('portfolio_tt')}</span>
+					<span class="btn__arrow" aria-hidden="true">↗</span>
+				</a>
+				<a class="btn btn--ghost" href={contact.instagram.url} target="_blank" rel="noopener" data-magnetic="0.3">
+					<span data-i18n="portfolio_ig">{es('portfolio_ig')}</span>
+					<span class="btn__arrow" aria-hidden="true">↗</span>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<dialog class="viewer" data-viewer data-i18n-aria="viewer_label" aria-label={es('viewer_label')}>
+		<div class="viewer__box">
+			<button class="viewer__close" type="button" data-viewer-close data-i18n-aria="viewer_close" aria-label={es('viewer_close')}>✕</button>
+			<div class="viewer__frame" data-viewer-frame></div>
+		</div>
+	</dialog>
+</section>
+
+<style>
+	.work__head .lead {
+		margin-top: 18px;
+	}
+
+	/* Filtros */
+	.filters {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		width: fit-content;
+		max-width: 100%;
+		margin-top: 36px;
+		padding: 5px;
+		border: var(--line);
+		border-radius: 999px;
+		background: var(--paper);
+		box-shadow: var(--shadow);
+	}
+
+	.filters__pill {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		border-radius: 999px;
+		background: var(--cherry);
+		opacity: 0;
+		transition:
+			transform 0.55s var(--ease-pop),
+			width 0.55s var(--ease-pop),
+			opacity 0.2s;
+	}
+
+	.filters:global(.is-ready) .filters__pill {
+		opacity: 1;
+	}
+
+	.filters__tab {
+		position: relative;
+		z-index: 1;
+		padding: 0.6em 1.1em;
+		border-radius: 999px;
+		font-weight: 700;
+		transition: color 0.3s;
+	}
+
+	.filters__tab[aria-selected='true'] {
+		color: var(--cream);
+	}
+
+	:global(.no-js) .filters__tab[aria-selected='true'] {
+		background: var(--cherry);
+	}
+
+	.filters__count {
+		font-size: 0.7em;
+		opacity: 0.7;
+		margin-left: 2px;
+	}
+
+	/* Grilla */
+	.work__grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 18px 14px;
+		margin-top: 40px;
+	}
+
+	.wcard {
+		--bg: var(--butter);
+		border: var(--line);
+		border-radius: var(--radius);
+		background: var(--bg);
+		box-shadow: var(--shadow);
+		overflow: hidden;
+		transition: box-shadow 0.35s var(--ease-pop);
+	}
+
+	.wcard[hidden] {
+		display: none;
+	}
+
+	.wcard:hover {
+		box-shadow: 10px 10px 0 var(--ink);
+	}
+
+	.wcard--butter { --bg: var(--butter); }
+	.wcard--pink { --bg: var(--pink); }
+	.wcard--sky { --bg: var(--sky); }
+	.wcard--tomato { --bg: var(--tomato); }
+	.wcard--leaf { --bg: var(--leaf); }
+	.wcard--cherry { --bg: var(--cherry); }
+
+	.wcard__btn {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 100%;
+		aspect-ratio: 9 / 16;
+		padding: 12px;
+		text-align: left;
+		color: var(--ink);
+	}
+
+	.wcard--tomato .wcard__btn,
+	.wcard--leaf .wcard__btn,
+	.wcard--cherry .wcard__btn {
+		color: var(--cream);
+	}
+
+	.wcard__media {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		overflow: hidden;
+	}
+
+	.wcard__media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.7s var(--ease-out);
+	}
+
+	.wcard:hover .wcard__media img {
+		transform: scale(1.07);
+	}
+
+	.wcard__symbol {
+		font-size: clamp(5rem, 22vw, 9rem);
+		line-height: 1;
+		opacity: 0.22;
+		transition: transform 0.7s var(--ease-out);
+	}
+
+	.wcard:hover .wcard__symbol {
+		transform: scale(1.07) rotate(-6deg);
+	}
+
+	.wcard__top {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		align-items: center;
+	}
+
+	.wcard__platform {
+		--r: -4deg;
+		font-size: 0.72rem;
+		padding: 0.35em 0.7em;
+	}
+
+	.wcard__cat {
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.wcard__play {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: grid;
+		place-items: center;
+		width: 60px;
+		height: 60px;
+		margin: -30px 0 0 -30px;
+		border: var(--line);
+		border-radius: 50%;
+		background: var(--paper);
+		color: var(--ink);
+		box-shadow: 3px 3px 0 var(--ink);
+		transition: transform 0.45s var(--ease-pop);
+	}
+
+	.wcard__tri {
+		position: relative;
+		z-index: 1;
+		font-size: 1.2rem;
+		margin-left: 4px;
+	}
+
+	.wcard__ping {
+		position: absolute;
+		inset: -2px;
+		border: 2px solid var(--paper);
+		border-radius: 50%;
+		animation: ping 1.8s var(--ease-out) infinite;
+	}
+
+	.wcard:hover .wcard__play {
+		transform: scale(1.22) rotate(-12deg);
+	}
+
+	.wcard__title {
+		position: relative;
+		font-family: var(--font-display);
+		text-transform: uppercase;
+		font-size: clamp(1.25rem, 4.2vw, 2rem);
+		line-height: 0.95;
+	}
+
+	/* CTA */
+	.work__cta {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		margin-top: 56px;
+	}
+
+	.work__cta .hand {
+		font-size: 2rem;
+		color: var(--cherry);
+	}
+
+	.work__cta-btns {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+
+	/* Visor */
+	.viewer {
+		width: min(420px, calc(100vw - 32px));
+		max-width: none;
+		max-height: none;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		overflow: visible;
+	}
+
+	.viewer::backdrop {
+		background: rgb(122 18 56 / 0.72);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	.viewer[open] .viewer__box {
+		animation: pop-in 0.6s var(--ease-pop) backwards;
+	}
+
+	.viewer__box {
+		--r: -1deg;
+		position: relative;
+		padding: 10px;
+		border: var(--line);
+		border-radius: var(--radius);
+		background: var(--paper);
+		box-shadow: 8px 8px 0 var(--ink);
+		transform: rotate(var(--r));
+	}
+
+	.viewer__frame {
+		height: min(78svh, 720px);
+		border-radius: 14px;
+		overflow: hidden;
+		background: var(--cream);
+	}
+
+	.viewer__frame :global(iframe) {
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	.viewer__close {
+		position: absolute;
+		top: -18px;
+		right: -14px;
+		z-index: 2;
+		display: grid;
+		place-items: center;
+		width: 46px;
+		height: 46px;
+		border: var(--line);
+		border-radius: 50%;
+		background: var(--butter);
+		box-shadow: 3px 3px 0 var(--ink);
+		font-size: 1.1rem;
+		font-weight: 800;
+		transition: transform 0.4s var(--ease-pop);
+	}
+
+	.viewer__close:hover {
+		transform: rotate(90deg) scale(1.08);
+	}
+
+	@media (min-width: 720px) {
+		.work__grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 28px 24px;
+		}
+
+		.wcard__btn {
+			padding: 16px;
+		}
+
+		.wcard__play {
+			width: 72px;
+			height: 72px;
+			margin: -36px 0 0 -36px;
+		}
+	}
+</style>
