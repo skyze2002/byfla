@@ -21,7 +21,8 @@ const stickerFx = [
 			<p class="eyebrow" data-reveal="up"><span data-i18n="hero_eyebrow">{es('hero_eyebrow')}</span></p>
 			<p class="hero__hi" data-reveal="pop" style="--r:-5deg" data-i18n="hero_hi">{es('hero_hi')}</p>
 			<h1 class="hero__name">
-				<span data-split data-reveal="split">{site.firstName}</span>
+				<span data-split data-reveal="split">{site.firstName}</span>{' '}
+				<span class="sr-only" data-i18n="hero_h1_sr">{es('hero_h1_sr')}</span>
 			</h1>
 			<p class="hero__role serif" data-reveal="up"><em data-i18n="hero_subtitle">{es('hero_subtitle')}</em></p>
 			<p class="hero__type" data-reveal="up">

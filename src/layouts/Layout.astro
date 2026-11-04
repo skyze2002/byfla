@@ -5,39 +5,81 @@ import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource/caveat-brush/400.css';
 import '@fontsource-variable/dm-sans';
 import '../styles/global.css';
-import { site, contact, metrics, roundK, es } from '../data/site';
+import { site, contact, metrics, prices, faqKeys, heroPhoto, es, t } from '../data/site';
+import { seo, ogImage, serviceNames } from '../data/seo';
 
 const title = es('seo_title');
 const description = es('seo_desc');
+const canonical = `${site.url}/`;
+const person = `${site.url}/#person`;
+const ogAlt = es('seo_og_alt');
 
 const jsonLd = {
 	'@context': 'https://schema.org',
 	'@graph': [
 		{
-			'@type': 'Person',
-			'@id': `${site.url}/#person`,
-			name: site.name,
-			alternateName: contact.instagram.handle.slice(1),
-			description: `Creadora de contenido UGC y lifestyle con ${roundK(metrics.tiktokFollowers)} seguidores en TikTok. Especializada en moda, viajes, comida y música.`,
-			url: site.url,
-			email: contact.email,
-			telephone: contact.phone,
-			address: { '@type': 'PostalAddress', addressLocality: 'Arequipa', addressCountry: 'PE' },
-			sameAs: [contact.instagram.url, contact.tiktok.url],
-			knowsAbout: ['Content Creation', 'UGC', 'Fashion', 'Lifestyle', 'Travel', 'Food', 'Music'],
-			hasOccupation: {
-				'@type': 'Occupation',
-				name: 'Creadora de Contenido UGC',
-				occupationLocation: { '@type': 'City', name: 'Arequipa, Perú' },
-			},
-		},
-		{
 			'@type': 'WebSite',
 			'@id': `${site.url}/#website`,
-			url: site.url,
-			name: 'Flavia López — Portafolio',
-			description: 'Portafolio profesional de Flavia López, creadora de contenido UGC en Arequipa, Perú.',
+			url: canonical,
+			name: site.name,
+			alternateName: 'byfla',
+			inLanguage: ['es-PE', 'en'],
+			publisher: { '@id': person },
+		},
+		{
+			'@type': 'ProfilePage',
+			'@id': `${canonical}#profile`,
+			url: canonical,
+			name: title,
+			description,
 			inLanguage: 'es-PE',
+			isPartOf: { '@id': `${site.url}/#website` },
+			mainEntity: { '@id': person },
+			primaryImageOfPage: { '@type': 'ImageObject', url: ogImage.url, width: ogImage.w, height: ogImage.h },
+			dateModified: seo.buildDate,
+		},
+		{
+			'@type': 'Person',
+			'@id': person,
+			name: site.name,
+			givenName: 'Flavia',
+			familyName: 'López',
+			alternateName: [contact.instagram.handle, contact.tiktok.handle],
+			jobTitle: 'Creadora de contenido UGC e influencer',
+			description: es('seo_desc'),
+			image: `${site.url}${heroPhoto.src}`,
+			url: canonical,
+			email: `mailto:${contact.email}`,
+			telephone: contact.phone,
+			homeLocation: { '@type': 'City', name: 'Arequipa', containedInPlace: { '@type': 'Country', name: 'Perú' } },
+			address: { '@type': 'PostalAddress', addressLocality: 'Arequipa', addressRegion: 'Arequipa', addressCountry: 'PE' },
+			sameAs: [contact.instagram.url, contact.tiktok.url],
+			knowsLanguage: ['es', 'en'],
+			knowsAbout: seo.knowsAbout,
+			// Seguidores por red: Google los usa en perfiles de creadores (ProfilePage)
+			interactionStatistic: [
+				{ '@type': 'InteractionCounter', interactionType: 'https://schema.org/FollowAction', userInteractionCount: metrics.tiktokFollowers, name: 'Seguidores en TikTok' },
+				{ '@type': 'InteractionCounter', interactionType: 'https://schema.org/FollowAction', userInteractionCount: metrics.instagramFollowers, name: 'Seguidores en Instagram' },
+				{ '@type': 'InteractionCounter', interactionType: 'https://schema.org/LikeAction', userInteractionCount: metrics.tiktokLikes, name: 'Likes en TikTok' },
+			],
+			makesOffer: prices.map((p) => ({
+				'@type': 'Offer',
+				price: p.price,
+				priceCurrency: 'USD',
+				availability: 'https://schema.org/InStock',
+				areaServed: [{ '@type': 'Country', name: 'Perú' }, 'Internacional'],
+				itemOffered: { '@type': 'Service', name: serviceNames[p.id], serviceType: 'Creación de contenido UGC', provider: { '@id': person } },
+			})),
+		},
+		{
+			'@type': 'FAQPage',
+			'@id': `${canonical}#faq`,
+			inLanguage: 'es-PE',
+			mainEntity: faqKeys.map((k) => ({
+				'@type': 'Question',
+				name: t.es[`${k}_q`],
+				acceptedAnswer: { '@type': 'Answer', text: t.es[`${k}_a`] },
+			})),
 		},
 	],
 };
@@ -70,35 +112,49 @@ const jsonLd = {
 		</script>
 
 		<title>{title}</title>
-		<meta name="title" content={title} />
 		<meta name="description" content={description} />
-		<meta name="keywords" content="Flavia López, creadora de contenido, UGC, influencer, Arequipa, Perú, TikTok, Instagram, moda, lifestyle, colaboraciones" />
+		<meta name="keywords" content={seo.keywords.join(', ')} />
 		<meta name="author" content={site.name} />
-		<meta name="robots" content="index, follow" />
-		<link rel="canonical" href={site.url} />
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		<link rel="canonical" href={canonical} />
+		<link rel="alternate" hreflang="es-PE" href={canonical} />
+		<link rel="alternate" hreflang="x-default" href={canonical} />
 		<meta name="theme-color" content="#7a1238" />
 
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={site.url} />
+		<!-- Ubicación: marcas que buscan creadoras en Arequipa / Perú -->
+		<meta name="geo.region" content="PE-ARE" />
+		<meta name="geo.placename" content="Arequipa, Perú" />
+		<meta name="geo.position" content={`${seo.geo.lat};${seo.geo.lng}`} />
+		<meta name="ICBM" content={`${seo.geo.lat}, ${seo.geo.lng}`} />
+
+		<!-- Open Graph: perfil personal -->
+		<meta property="og:type" content="profile" />
+		<meta property="og:site_name" content={site.name} />
+		<meta property="og:locale" content="es_PE" />
+		<meta property="og:locale:alternate" content="en_US" />
+		<meta property="og:url" content={canonical} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content={site.ogImage} />
-		<meta property="og:image:width" content="1200" />
-		<meta property="og:image:height" content="630" />
-		<meta property="og:locale" content="es_PE" />
-		<meta property="og:site_name" content={site.name} />
+		<meta property="og:image" content={ogImage.url} />
+		<meta property="og:image:type" content="image/jpeg" />
+		<meta property="og:image:width" content={String(ogImage.w)} />
+		<meta property="og:image:height" content={String(ogImage.h)} />
+		<meta property="og:image:alt" content={ogAlt} />
+		<meta property="profile:first_name" content="Flavia" />
+		<meta property="profile:last_name" content="López" />
+		<meta property="profile:username" content={contact.tiktok.handle.slice(1)} />
+		<meta property="profile:gender" content="female" />
 
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:site" content={contact.instagram.handle} />
-		<meta name="twitter:creator" content={contact.instagram.handle} />
-		<meta name="twitter:url" content={site.url} />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
-		<meta name="twitter:image" content={site.ogImage} />
+		<meta name="twitter:image" content={ogImage.url} />
+		<meta name="twitter:image:alt" content={ogAlt} />
 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
 		<link rel="preload" as="image" href="/images/foto1.jpg" fetchpriority="high" />
 		<meta name="generator" content={Astro.generator} />
 
