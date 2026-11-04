@@ -1,0 +1,47 @@
+---
+import { es } from '../data/site';
+---
+
+<div class="cursor-bubble" data-cursor-bubble aria-hidden="true">
+	<span class="cursor-bubble__dot" data-i18n="cursor_view">{es('cursor_view')}</span>
+</div>
+
+<style>
+	.cursor-bubble {
+		display: none;
+	}
+
+	@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+		.cursor-bubble {
+			display: block;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 9990;
+			pointer-events: none;
+			will-change: transform;
+		}
+	}
+
+	.cursor-bubble__dot {
+		display: grid;
+		place-items: center;
+		width: 92px;
+		height: 92px;
+		margin: -46px 0 0 -46px;
+		border: var(--line);
+		border-radius: 50%;
+		background: var(--butter);
+		box-shadow: var(--shadow);
+		font-family: var(--font-display);
+		font-size: 1.05rem;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		transform: scale(0) rotate(-20deg);
+		transition: transform 0.45s var(--ease-pop);
+	}
+
+	.cursor-bubble:global(.is-on) .cursor-bubble__dot {
+		transform: scale(1) rotate(-8deg);
+	}
+</style>
