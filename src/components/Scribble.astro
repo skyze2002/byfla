@@ -1,0 +1,17 @@
+---
+import { es, type TKey } from '../data/site';
+
+interface Props {
+	k: TKey;
+	d?: string;
+}
+
+const { k, d = '0.4s' } = Astro.props;
+---
+
+<span class="scribble" data-reveal="draw" style={`--d:${d}`}>
+	<span data-i18n={k}>{es(k)}</span>
+	<svg class="scribble__svg" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true">
+		<path pathLength="1" d="M4 13 C 34 6, 62 16, 98 10 S 160 4, 196 12 M 22 17 C 70 12, 120 17, 176 14"></path>
+	</svg>
+</span>

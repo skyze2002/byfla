@@ -1,0 +1,41 @@
+---
+import { es, type TKey } from '../data/site';
+
+interface Props {
+	items: TKey[];
+	tone?: 'cherry' | 'pink' | 'butter' | 'ink';
+	variant?: 'display' | 'serif';
+	reverse?: boolean;
+	tilt?: number;
+	speed?: number;
+	class?: string;
+}
+
+const { items, tone = 'cherry', variant = 'display', reverse = false, tilt = 0, speed = 30, class: cls = '' } = Astro.props;
+const stars = ['✶', '★', '✺', '♥'];
+// Pista con los items repetidos: dos copias idénticas = bucle sin saltos.
+const track = [...items, ...items, ...items];
+---
+
+<div
+	class:list={['marquee', `marquee--${tone}`, `marquee--${variant}`, { 'marquee--reverse': reverse }, cls]}
+	style={`--tilt:${tilt}deg;--speed:${speed}s`}
+>
+	<p class="sr-only">
+		{items.map((k, i) => <><span data-i18n={k}>{es(k)}</span>{i < items.length - 1 && ' · '}</>)}
+	</p>
+	<div class="marquee__inner" aria-hidden="true">
+		{
+			[0, 1].map(() => (
+				<div class="marquee__track">
+					{track.map((k, i) => (
+						<>
+							<span class="marquee__item" data-i18n={k}>{es(k)}</span>
+							<span class="marquee__star" style={`animation-delay:-${i * 0.7}s`}>{stars[i % stars.length]}</span>
+						</>
+					))}
+				</div>
+			))
+		}
+	</div>
+</div>
