@@ -1,0 +1,161 @@
+---
+import { nav, contact, site, es } from '../data/site';
+---
+
+<footer class="footer">
+	<div class="container footer__grid">
+		<div class="footer__brand">
+			<p class="footer__tag" data-i18n="footer_tagline">{es('footer_tagline')}</p>
+			<p class="footer__avail" data-i18n="footer_availability">{es('footer_availability')}</p>
+		</div>
+
+		<nav class="footer__col" aria-labelledby="footer-nav">
+			<h3 id="footer-nav" class="footer__h" data-i18n="footer_nav">{es('footer_nav')}</h3>
+			<ul>
+				{nav.map((n) => <li><a class="flink" href={n.href} data-i18n={n.key}>{es(n.key)}</a></li>)}
+			</ul>
+		</nav>
+
+		<div class="footer__col">
+			<h3 class="footer__h" data-i18n="footer_connect">{es('footer_connect')}</h3>
+			<ul>
+				<li><a class="flink" href={`mailto:${contact.email}`}>{contact.email}</a></li>
+				<li><a class="flink" href={`tel:${contact.phone}`}>{contact.phoneDisplay}</a></li>
+				<li><a class="flink" href={contact.instagram.url} target="_blank" rel="noopener">Instagram {contact.instagram.handle}</a></li>
+				<li><a class="flink" href={contact.tiktok.url} target="_blank" rel="noopener">TikTok {contact.tiktok.handle}</a></li>
+			</ul>
+		</div>
+
+		<a class="footer__top" href="#inicio" data-magnetic="0.35" data-i18n-aria="footer_top" aria-label={es('footer_top')}>↑</a>
+	</div>
+
+	<p class="footer__big" aria-label={site.firstName}>
+		{[...site.firstName].map((c, i) => <span aria-hidden="true" style={`--i:${i}`}>{c}</span>)}
+	</p>
+
+	<div class="container footer__bottom">
+		<p>© {site.year} {site.name}. <span data-i18n="footer_rights">{es('footer_rights')}</span></p>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		position: relative;
+		padding-top: 88px;
+		background: var(--cream);
+		border-top: var(--line);
+		overflow: hidden;
+	}
+
+	.footer__grid {
+		position: relative;
+		display: grid;
+		gap: 40px;
+	}
+
+	.footer__brand {
+		padding-right: 76px;
+	}
+
+	.footer__tag {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: clamp(1.8rem, 4vw, 2.6rem);
+		line-height: 1.05;
+		max-width: 18ch;
+	}
+
+	.footer__avail {
+		margin-top: 14px;
+		font-size: 0.92rem;
+		color: var(--ink-soft);
+		max-width: 40ch;
+	}
+
+	.footer__h {
+		font-family: var(--font-hand);
+		font-weight: 400;
+		font-size: 1.6rem;
+		color: var(--cherry);
+		margin-bottom: 10px;
+	}
+
+	.footer__col ul {
+		display: grid;
+		gap: 8px;
+	}
+
+	.flink {
+		position: relative;
+		font-weight: 600;
+		word-break: break-word;
+		background: linear-gradient(var(--tomato), var(--tomato)) 0 100% / 0% 3px no-repeat;
+		transition: background-size 0.4s var(--ease-out);
+		padding-bottom: 2px;
+	}
+
+	.flink:hover,
+	.flink:focus-visible {
+		background-size: 100% 3px;
+	}
+
+	.footer__top {
+		position: absolute;
+		top: -4px;
+		right: var(--gutter);
+		display: grid;
+		place-items: center;
+		width: 62px;
+		height: 62px;
+		border: var(--line);
+		border-radius: 50%;
+		background: var(--butter);
+		box-shadow: var(--shadow);
+		font-size: 1.6rem;
+		font-weight: 800;
+		transition:
+			transform 0.4s var(--ease-pop),
+			box-shadow 0.3s,
+			translate 0.4s var(--ease-out);
+	}
+
+	.footer__top:hover {
+		transform: translateY(-4px) rotate(-8deg);
+		box-shadow: 6px 6px 0 var(--ink);
+	}
+
+	.footer__big {
+		display: flex;
+		justify-content: center;
+		margin-top: 56px;
+		font-family: var(--font-display);
+		font-size: clamp(6rem, 30vw, 26rem);
+		line-height: 0.8;
+		color: var(--cherry);
+		user-select: none;
+	}
+
+	.footer__big span {
+		display: inline-block;
+		transition:
+			transform 0.5s var(--ease-pop),
+			color 0.3s;
+	}
+
+	.footer__big span:hover {
+		color: var(--tomato);
+		transform: translateY(-0.12em) rotate(calc(-8deg + var(--i) * 3deg));
+	}
+
+	.footer__bottom {
+		padding-block: 22px 28px;
+		font-size: 0.85rem;
+		color: var(--ink-soft);
+	}
+
+	@media (min-width: 860px) {
+		.footer__grid {
+			grid-template-columns: 1.5fr 1fr 1.2fr;
+		}
+	}
+</style>
