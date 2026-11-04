@@ -1,0 +1,150 @@
+---
+import { brands, brandStats, es } from '../data/site';
+import Scribble from './Scribble.astro';
+
+const stampRot = [-4, 3, -2];
+---
+
+<section class="section brands" aria-labelledby="brands-title">
+	<div class="container">
+		<header class="brands__head">
+			<p class="eyebrow" data-reveal="up"><span data-i18n="brands_eyebrow">{es('brands_eyebrow')}</span></p>
+			<h2 id="brands-title" class="h-section" data-reveal="up">
+				<span data-i18n="brands_h1">{es('brands_h1')}</span>{' '}
+				<em data-i18n="brands_h2">{es('brands_h2')}</em>{' '}
+				<Scribble k="brands_h3" d="0.5s" />
+			</h2>
+		</header>
+	</div>
+
+	<div class="marquee brands__marquee" style="--speed:40s">
+		<div class="marquee__inner">
+			{
+				[0, 1].map((copy) => (
+					<ul class="marquee__track brands__track" aria-hidden={copy ? 'true' : undefined}>
+						{brands.map((b, i) => (
+							<li class="brand" style={`--r:${i % 2 ? 2 : -2}deg`}>
+								<img src={b.src} width={b.w} height={b.h} alt={copy ? '' : b.name} loading="lazy" decoding="async" />
+							</li>
+						))}
+					</ul>
+				))
+			}
+		</div>
+	</div>
+
+	<div class="container">
+		<ul class="brands__stats" data-stagger="0.12">
+			{
+				brandStats.map((s, i) => (
+					<li class="stamp" data-reveal="pop" style={`--r:${stampRot[i]}deg`}>
+						<strong class="stamp__value" data-i18n={s.valueKey}>{s.valueKey ? es(s.valueKey) : s.value}</strong>
+						<span class="stamp__label" data-i18n={s.key}>{es(s.key)}</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.brands {
+		overflow: hidden;
+	}
+
+	.brands__marquee {
+		margin-top: 56px;
+		border: 0;
+		box-shadow: none;
+		background: transparent;
+	}
+
+	.brands__track {
+		gap: 22px;
+		padding: 24px 11px;
+	}
+
+	.brand {
+		display: grid;
+		place-items: center;
+		width: clamp(150px, 30vw, 210px);
+		height: clamp(100px, 18vw, 128px);
+		padding: 18px 22px;
+		border: var(--line);
+		border-radius: 18px;
+		background: var(--paper);
+		box-shadow: var(--shadow);
+		transform: rotate(var(--r));
+		transition:
+			transform 0.45s var(--ease-pop),
+			background-color 0.3s,
+			box-shadow 0.3s;
+	}
+
+	/* El logo llena la caja interior de la tarjeta sin salirse ni deformarse */
+	.brand img {
+		width: 100%;
+		height: 100%;
+		min-height: 0;
+		object-fit: contain;
+		filter: grayscale(1);
+		opacity: 0.75;
+		mix-blend-mode: multiply;
+		transition:
+			filter 0.4s,
+			opacity 0.4s;
+	}
+
+	.brand:hover {
+		background: var(--butter);
+		transform: rotate(0deg) scale(1.08);
+		box-shadow: 6px 6px 0 var(--ink);
+	}
+
+	.brand:hover img {
+		filter: none;
+		opacity: 1;
+	}
+
+	.brands__stats {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 18px;
+		margin-top: 48px;
+	}
+
+	.stamp {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: clamp(150px, 40vw, 190px);
+		aspect-ratio: 1;
+		padding: 16px;
+		border: 3px dashed var(--cherry);
+		border-radius: 50%;
+		outline: 2px solid var(--cherry);
+		outline-offset: 5px;
+		text-align: center;
+		color: var(--cherry);
+		background: var(--paper);
+		transform: rotate(var(--r));
+	}
+
+	.stamp__value {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.8rem, 5vw, 2.6rem);
+		line-height: 1;
+	}
+
+	.stamp__label {
+		margin-top: 6px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		line-height: 1.2;
+	}
+</style>
