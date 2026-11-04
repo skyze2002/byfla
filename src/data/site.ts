@@ -27,7 +27,6 @@ export const site = {
 	introWord: 'FLA',
 	city: 'Arequipa',
 	country: 'Perú',
-	ogImage: 'https://byfla.com/og-image.jpg',
 	year: 2026,
 };
 
@@ -201,17 +200,26 @@ export const typewriter = {
 	en: ['fashion', 'travel', 'food', 'concerts', 'lifestyle'],
 };
 
+/** Preguntas frecuentes: cada clave tiene su `_q` y su `_a` en `t`. */
+export const faqKeys = ['faq_1', 'faq_2', 'faq_3', 'faq_4', 'faq_5', 'faq_6'] as const;
+
 /* ---------- Textos ES / EN ---------- */
 
 const tt = metrics.tiktokFollowers;
 const likes = compact(metrics.tiktokLikes);
 const peru = metrics.peruAudience;
+const minPrice = Math.min(...prices.map((p) => p.price));
+const maxPrice = Math.max(...prices.map((p) => p.price));
+const ig = compact(metrics.instagramFollowers);
+const brandList = brands.map((b) => b.name);
+const brandsShort = `${brandList.slice(1, 4).join(', ')}`;
 
 export const t = {
 	es: {
 		// SEO
-		seo_title: 'Flavia López | Creadora de Contenido UGC · Arequipa, Perú',
-		seo_desc: `Creadora de contenido auténtico con ${roundK(tt)} seguidores en TikTok y ${likes} likes acumulados. Transformo experiencias reales en contenido que conecta marcas con personas. Arequipa, Perú.`,
+		seo_title: 'Creadora de contenido UGC en Arequipa, Perú | Flavia López',
+		seo_desc: `Creadora de contenido UGC e influencer en Arequipa con ${roundK(tt)} seguidores en TikTok. Videos para marcas de moda, belleza y lifestyle. Tarifas desde $${minPrice}.`,
+		seo_og_alt: 'Flavia López, creadora de contenido UGC en Arequipa, Perú',
 		skip: 'Saltar al contenido',
 		// Navegación
 		nav_about: 'Sobre mí',
@@ -230,6 +238,7 @@ export const t = {
 		// Hero
 		hero_eyebrow: 'Creadora de contenido · Arequipa, Perú',
 		hero_hi: 'hola, soy',
+		hero_h1_sr: 'López, creadora de contenido UGC en Arequipa, Perú',
 		hero_subtitle: 'Creadora de Contenido & UGC Specialist',
 		hero_type: 'contenido real de',
 		hero_type_sr: typewriter.es.join(', '),
@@ -237,7 +246,7 @@ export const t = {
 		hero_caption: 'esta soy yo ♡',
 		hero_seal: 'contenido real ✶ arequipa ✶ ugc ✶ ',
 		hero_scroll: 'baja ↓',
-		alt_hero: 'Flavia López - Creadora de Contenido',
+		alt_hero: 'Flavia López, creadora de contenido UGC en Arequipa, Perú',
 		drag_hint: 'arrástrame',
 		m_tiktok: 'seguidores TikTok',
 		m_instagram: 'seguidores Instagram',
@@ -272,7 +281,7 @@ export const t = {
 		niche_music: 'Música',
 		niche_concerts: 'Conciertos',
 		niche_lifestyle: 'Lifestyle',
-		alt_about: 'Flavia López - Sobre mí',
+		alt_about: 'Flavia López grabando contenido para marcas en Arequipa',
 		alt_about_2: 'Flavia López grabando contenido',
 		alt_about_3: 'Flavia López en una sesión',
 		cap_about: 'arequipa ♡',
@@ -365,6 +374,22 @@ export const t = {
 		rate_replica_value: 'Presencia simultánea en TikTok e Instagram. Doble alcance.',
 		rate_image_value: 'Reutiliza el contenido en tus canales y anuncios',
 		// Contacto
+		// Preguntas frecuentes
+		faq_eyebrow: 'Preguntas frecuentes',
+		faq_h1: 'Lo que las marcas',
+		faq_h2: 'me preguntan',
+		faq_1_q: '¿Qué es el contenido UGC y por qué funciona?',
+		faq_1_a: 'UGC (User Generated Content) es contenido grabado por una creadora real, con su voz y su estilo, en lugar de un anuncio tradicional. Se siente como la recomendación de alguien de confianza, por eso genera más interacción y conversiones en TikTok, Reels y anuncios pagados.',
+		faq_2_q: '¿Cuánto cuesta un video UGC o una colaboración?',
+		faq_2_a: `Mis tarifas de referencia van desde $${minPrice} por una historia de Instagram hasta $${maxPrice} por el pack TikTok + Reel. Un Reel o un post cuestan $${priceOf('reel')} y un TikTok temático $${priceOf('tiktok')}. El precio final depende del brief, la duración y los derechos de uso.`,
+		faq_3_q: '¿Con qué tipo de marcas trabajas?',
+		faq_3_a: `Con marcas de moda, belleza, gastronomía, viajes, música y lifestyle. He colaborado con marcas peruanas e internacionales como ${brandsShort} y ${brandList[4]}.`,
+		faq_4_q: '¿Trabajas solo en Arequipa?',
+		faq_4_a: 'Vivo en Arequipa, Perú, y trabajo con marcas de todo el país y del extranjero. El contenido UGC se graba y se entrega a distancia; para activaciones presenciales fuera de Arequipa, los traslados se cotizan aparte.',
+		faq_5_q: '¿Cómo es tu audiencia?',
+		faq_5_a: `Tengo ${compact(tt)} seguidores en TikTok y ${ig} en Instagram. El ${peru}% de mi audiencia está en Perú y la mayoría tiene entre 18 y 34 años.`,
+		faq_6_q: '¿Cómo empezamos una colaboración?',
+		faq_6_a: 'Completa el formulario de contacto o escríbeme por WhatsApp con tu marca, el tipo de contenido y tu presupuesto. Te respondo en menos de 24 horas con una propuesta.',
 		contact_eyebrow: 'Contacto',
 		contact_hi: 'hola!',
 		contact_h1: 'Hagamos algo',
@@ -401,8 +426,9 @@ export const t = {
 		footer_top: 'Volver arriba',
 	},
 	en: {
-		seo_title: 'Flavia López | UGC Content Creator · Arequipa, Peru',
-		seo_desc: `Authentic content creator with ${roundK(tt)} TikTok followers and ${likes} accumulated likes. I turn real experiences into content that connects brands with people. Arequipa, Peru.`,
+		seo_title: 'UGC Content Creator in Arequipa, Peru | Flavia López',
+		seo_desc: `UGC content creator and influencer in Arequipa, Peru with ${roundK(tt)} TikTok followers. Videos for fashion, beauty, food and lifestyle brands. Rates from $${minPrice}.`,
+		seo_og_alt: 'Flavia López, UGC content creator in Arequipa, Peru',
 		skip: 'Skip to content',
 		nav_about: 'About',
 		nav_portfolio: 'Portfolio',
@@ -418,6 +444,7 @@ export const t = {
 		intro_scroll: 'scroll to enter',
 		hero_eyebrow: 'Content creator · Arequipa, Peru',
 		hero_hi: "hi, I'm",
+		hero_h1_sr: 'López, UGC content creator in Arequipa, Peru',
 		hero_subtitle: 'Content Creator & UGC Specialist',
 		hero_type: 'real content about',
 		hero_type_sr: typewriter.en.join(', '),
@@ -425,7 +452,7 @@ export const t = {
 		hero_caption: 'this is me ♡',
 		hero_seal: 'real content ✶ arequipa ✶ ugc ✶ ',
 		hero_scroll: 'scroll ↓',
-		alt_hero: 'Flavia López - Content Creator',
+		alt_hero: 'Flavia López, UGC content creator in Arequipa, Peru',
 		drag_hint: 'drag me',
 		m_tiktok: 'TikTok followers',
 		m_instagram: 'Instagram followers',
@@ -458,7 +485,7 @@ export const t = {
 		niche_music: 'Music',
 		niche_concerts: 'Concerts',
 		niche_lifestyle: 'Lifestyle',
-		alt_about: 'Flavia López - About me',
+		alt_about: 'Flavia López filming brand content in Arequipa',
 		alt_about_2: 'Flavia López filming content',
 		alt_about_3: 'Flavia López on a shoot',
 		cap_about: 'arequipa ♡',
@@ -546,6 +573,21 @@ export const t = {
 		rate_tiktok_value: `${roundK(tt)} followers, ${likes} accumulated likes. Maximum organic reach.`,
 		rate_replica_value: 'Simultaneous presence on TikTok and Instagram. Double the reach.',
 		rate_image_value: 'Reuse the content on your channels and ads',
+		faq_eyebrow: 'FAQ',
+		faq_h1: 'What brands',
+		faq_h2: 'ask me',
+		faq_1_q: 'What is UGC content and why does it work?',
+		faq_1_a: 'UGC (User Generated Content) is content filmed by a real creator, with her own voice and style, instead of a traditional ad. It feels like a recommendation from someone you trust, which is why it drives more engagement and conversions on TikTok, Reels and paid ads.',
+		faq_2_q: 'How much does a UGC video or collaboration cost?',
+		faq_2_a: `My reference rates go from $${minPrice} for an Instagram story to $${maxPrice} for the TikTok + Reel pack. A Reel or a post is $${priceOf('reel')} and a topic-specific TikTok is $${priceOf('tiktok')}. The final price depends on the brief, duration and usage rights.`,
+		faq_3_q: 'What kind of brands do you work with?',
+		faq_3_a: `Fashion, beauty, food, travel, music and lifestyle brands. I have worked with Peruvian and international brands such as ${brandsShort} and ${brandList[4]}.`,
+		faq_4_q: 'Do you only work in Arequipa?',
+		faq_4_a: 'I live in Arequipa, Peru, and work with brands across the country and abroad. UGC content is filmed and delivered remotely; for in-person activations outside Arequipa, travel is quoted separately.',
+		faq_5_q: 'What does your audience look like?',
+		faq_5_a: `I have ${compact(tt)} followers on TikTok and ${ig} on Instagram. ${peru}% of my audience is in Peru and most are between 18 and 34 years old.`,
+		faq_6_q: 'How do we start a collaboration?',
+		faq_6_a: 'Fill in the contact form or message me on WhatsApp with your brand, the type of content and your budget. I reply within 24 hours with a proposal.',
 		contact_eyebrow: 'Contact',
 		contact_hi: 'hi!',
 		contact_h1: "Let's create something",
