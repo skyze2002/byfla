@@ -1,0 +1,401 @@
+---
+import { site, heroPhoto, metricCards, typewriter, compact, es } from '../data/site';
+
+// Posición, rotación, parallax y desfase de wiggle de cada sticker de métricas
+const stickerFx = [
+	{ r: -7, parallax: 0.18, wd: 0 },
+	{ r: 5, parallax: -0.12, wd: 0.6 },
+	{ r: -4, parallax: 0.26, wd: 1.2 },
+	{ r: 8, parallax: -0.2, wd: 0.3 },
+];
+---
+
+<section id="inicio" class="hero" data-hero>
+	<div class="hero__bg" aria-hidden="true">
+		<div class="hero__blob-wrap" data-parallax="0.14"><div class="hero__blob"></div></div>
+		<div class="hero__ring" data-parallax="-0.1"></div>
+	</div>
+
+	<div class="container hero__grid">
+		<div class="hero__text" data-stagger="0.08" data-stagger-base="0.05">
+			<p class="eyebrow" data-reveal="up"><span data-i18n="hero_eyebrow">{es('hero_eyebrow')}</span></p>
+			<p class="hero__hi" data-reveal="pop" style="--r:-5deg" data-i18n="hero_hi">{es('hero_hi')}</p>
+			<h1 class="hero__name">
+				<span data-split data-reveal="split">{site.firstName}</span>
+			</h1>
+			<p class="hero__role serif" data-reveal="up"><em data-i18n="hero_subtitle">{es('hero_subtitle')}</em></p>
+			<p class="hero__type" data-reveal="up">
+				<span class="serif" data-i18n="hero_type">{es('hero_type')}</span>
+				<span class="sr-only" data-i18n="hero_type_sr">{es('hero_type_sr')}</span>
+				<span class="hero__tw" data-typewriter aria-hidden="true"
+					><span class="tw-word">{typewriter.es[0]}</span><span class="tw-cursor"></span></span
+				>
+			</p>
+			<p class="hero__desc" data-reveal="up" data-i18n="hero_desc">{es('hero_desc')}</p>
+			<div class="hero__ctas" data-reveal="up">
+				<a class="btn" href="#portafolio" data-magnetic="0.3">
+					<span data-i18n="cta_portfolio">{es('cta_portfolio')}</span>
+					<span class="btn__arrow" aria-hidden="true">→</span>
+				</a>
+				<a class="btn btn--ghost" href="#contacto" data-magnetic="0.3">
+					<span data-i18n="cta_primary">{es('cta_primary')}</span>
+					<span class="btn__arrow" aria-hidden="true">→</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="hero__visual" data-depth="12">
+			<figure class="polaroid hero__polaroid" data-reveal="settle" style="--r:-3deg;--d:0.2s">
+				<span class="tape" aria-hidden="true"></span>
+				<img
+					class="polaroid__img"
+					src={heroPhoto.src}
+					width={heroPhoto.w}
+					height={heroPhoto.h}
+					alt={es('alt_hero')}
+					data-i18n-alt="alt_hero"
+					fetchpriority="high"
+					decoding="async"
+				/>
+				<figcaption class="polaroid__cap" data-i18n="hero_caption">{es('hero_caption')}</figcaption>
+			</figure>
+
+			<div class="hero__seal" data-reveal="pop" style="--d:0.85s" aria-hidden="true">
+				<svg class="hero__seal-svg" data-scroll-spin viewBox="0 0 200 200">
+					<defs>
+						<path id="seal-path" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"></path>
+					</defs>
+					<circle cx="100" cy="100" r="96" class="hero__seal-disc"></circle>
+					<circle cx="100" cy="100" r="54" class="hero__seal-inner"></circle>
+					<text class="hero__seal-text">
+						<textPath href="#seal-path" textLength="458" lengthAdjust="spacing" data-i18n="hero_seal">{es('hero_seal')}</textPath>
+					</text>
+				</svg>
+				<span class="hero__seal-star">✶</span>
+			</div>
+
+			{
+				metricCards.map((m, i) => (
+					<div class={`hero__sticker-wrap hero__sticker-wrap--${i + 1}`} data-parallax={stickerFx[i].parallax} data-drag title={es('drag_hint')}>
+						<div
+							class={`sticker sticker--${m.tone} hero__sticker alive`}
+							data-reveal="pop"
+							style={`--r:${stickerFx[i].r}deg;--d:${(1.05 + i * 0.14).toFixed(2)}s;--wd:${stickerFx[i].wd}s`}
+						>
+							<strong class="hero__stat" data-count={m.value} data-format={m.format} data-suffix={m.suffix}>
+								{(m.format === 'compact' ? compact(m.value) : m.value) + m.suffix}
+							</strong>
+							<span class="hero__stat-label" data-i18n={m.labelKey}>{es(m.labelKey)}</span>
+						</div>
+					</div>
+				))
+			}
+
+			<svg class="hero__doodle hero__doodle--heart" data-reveal="draw" style="--d:1.6s" viewBox="0 0 100 90" aria-hidden="true">
+				<path pathLength="1" d="M50 80 C 14 58, 2 34, 16 18 C 28 4, 46 10, 50 28 C 55 10, 72 4, 84 18 C 98 34, 86 58, 50 80"></path>
+			</svg>
+			<svg class="hero__doodle hero__doodle--arrow" data-reveal="draw" style="--d:1.85s" viewBox="0 0 160 100" aria-hidden="true">
+				<path pathLength="1" d="M10 88 C 20 40, 70 14, 138 26 M 116 10 L 140 27 L 118 46"></path>
+			</svg>
+		</div>
+	</div>
+
+	<a class="hero__scroll" href="#sobre-mi" data-i18n="hero_scroll">{es('hero_scroll')}</a>
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		min-height: 100svh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-top: calc(var(--header-h) + 24px);
+		padding-bottom: 96px;
+		overflow: hidden;
+		isolation: isolate;
+	}
+
+	.hero__bg {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+	}
+
+	.hero__blob-wrap {
+		position: absolute;
+		top: 6%;
+		right: -30vw;
+		width: min(120vw, 900px);
+		aspect-ratio: 1;
+	}
+
+	.hero__blob {
+		width: 100%;
+		height: 100%;
+		background: var(--butter);
+		animation: morph 14s ease-in-out infinite;
+		border-radius: 58% 42% 55% 45% / 46% 58% 42% 54%;
+	}
+
+	.hero__ring {
+		position: absolute;
+		left: -120px;
+		bottom: 4%;
+		width: 300px;
+		aspect-ratio: 1;
+		border: 3px dashed var(--cherry);
+		border-radius: 50%;
+		opacity: 0.35;
+	}
+
+	.hero__grid {
+		display: grid;
+		gap: 56px;
+		align-items: center;
+	}
+
+	/* Texto */
+	.hero__text {
+		position: relative;
+		z-index: 2;
+		container-type: inline-size;
+	}
+
+	.hero__hi {
+		display: inline-block;
+		margin-top: 18px;
+		font-family: var(--font-hand);
+		font-size: clamp(2.2rem, 5vw, 3.4rem);
+		line-height: 1;
+		color: var(--tomato);
+		transform-origin: 0 100%;
+	}
+
+	.hero__name {
+		margin: 4px 0 0 -0.04em;
+		font-family: var(--font-display);
+		font-weight: 400;
+		/* clamp de la spec, limitado al ancho de la columna para que no se parta */
+		font-size: clamp(110px, min(21vw, 39cqi), 270px);
+		line-height: 0.86;
+		white-space: nowrap;
+		letter-spacing: 0.005em;
+		color: var(--cherry);
+	}
+
+	.hero__role {
+		margin-top: 14px;
+		font-size: clamp(1.5rem, 3vw, 2.1rem);
+		line-height: 1.1;
+	}
+
+	.hero__type {
+		margin-top: 10px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0 0.4em;
+		font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+	}
+
+	.hero__tw {
+		display: inline-flex;
+		align-items: baseline;
+		min-height: 1.2em;
+		font-family: var(--font-hand);
+		font-size: 1.35em;
+		color: var(--cherry);
+	}
+
+	/* Espacio invisible: con la palabra borrada la línea mantiene su base y no salta */
+	.tw-word::before {
+		content: '\200b';
+	}
+
+	.tw-cursor {
+		display: inline-block;
+		width: 3px;
+		height: 0.9em;
+		margin-left: 3px;
+		background: var(--tomato);
+		align-self: center;
+		animation: blink 1s steps(1) infinite;
+	}
+
+	.hero__desc {
+		margin-top: 18px;
+		max-width: 46ch;
+		color: var(--ink-soft);
+	}
+
+	.hero__ctas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+		margin-top: 30px;
+	}
+
+	/* Visual */
+	.hero__visual {
+		position: relative;
+		width: min(100%, 520px);
+		margin-inline: auto;
+		padding: 40px 6% 50px;
+	}
+
+	.hero__polaroid {
+		width: min(78%, 380px);
+		margin-inline: auto;
+	}
+
+	.hero__seal {
+		position: absolute;
+		top: -2%;
+		left: -2%;
+		z-index: 3;
+		width: clamp(104px, 24vw, 150px);
+		aspect-ratio: 1;
+	}
+
+	.hero__seal-svg {
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+		animation: spin 16s linear infinite;
+	}
+
+	.hero__seal-disc {
+		fill: var(--cherry);
+		stroke: var(--ink);
+		stroke-width: 3;
+	}
+
+	.hero__seal-inner {
+		fill: none;
+		stroke: var(--butter);
+		stroke-width: 2;
+		stroke-dasharray: 4 6;
+	}
+
+	.hero__seal-text {
+		fill: var(--butter);
+		font-family: var(--font-display);
+		font-size: 19px;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+	}
+
+	.hero__seal-star {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		font-size: clamp(2rem, 5vw, 2.8rem);
+		color: var(--pink);
+		animation: spin 9s linear infinite reverse;
+	}
+
+	.hero__sticker-wrap {
+		position: absolute;
+		z-index: 4;
+		cursor: grab;
+		touch-action: none;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.hero__sticker-wrap:global(.is-dragging) {
+		z-index: 6;
+		cursor: grabbing;
+	}
+
+	.hero__sticker-wrap:global(.is-dragging) .hero__sticker {
+		box-shadow: 7px 7px 0 var(--ink);
+	}
+
+	.hero__sticker-wrap--1 { top: 10%; right: -2%; }
+	.hero__sticker-wrap--2 { top: 46%; left: -4%; }
+	.hero__sticker-wrap--3 { bottom: 12%; right: 0%; }
+	.hero__sticker-wrap--4 { bottom: 0%; left: 14%; }
+
+	.hero__sticker {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.1em;
+		padding: 0.55em 0.85em 0.6em;
+		font-size: clamp(0.72rem, 1.6vw, 0.85rem);
+		transition: box-shadow 0.3s var(--ease-pop);
+	}
+
+	.hero__stat {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: clamp(1.7rem, 4.4vw, 2.5rem);
+		line-height: 0.95;
+	}
+
+	.hero__stat-label {
+		font-weight: 700;
+		white-space: nowrap;
+	}
+
+	.hero__doodle {
+		position: absolute;
+		z-index: 5;
+		overflow: visible;
+		pointer-events: none;
+	}
+
+	.hero__doodle path {
+		fill: none;
+		stroke: var(--tomato);
+		stroke-width: 4;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 1;
+	}
+
+	.hero__doodle--heart {
+		top: 30%;
+		right: 2%;
+		width: clamp(46px, 9vw, 70px);
+		rotate: 12deg;
+	}
+
+	.hero__doodle--arrow {
+		bottom: 26%;
+		left: -6%;
+		width: clamp(70px, 14vw, 120px);
+		rotate: -16deg;
+	}
+
+	.hero__scroll {
+		position: absolute;
+		left: 50%;
+		bottom: 22px;
+		translate: -50% 0;
+		font-family: var(--font-hand);
+		font-size: 1.5rem;
+		color: var(--cherry);
+		animation: bob 1.8s ease-in-out infinite;
+	}
+
+	@media (min-width: 960px) {
+		.hero__grid {
+			grid-template-columns: 1.08fr 1fr;
+			gap: 32px;
+		}
+
+		.hero__visual {
+			padding: 60px 8% 70px;
+		}
+
+		.hero__blob-wrap {
+			top: -6%;
+			right: -12vw;
+			width: min(62vw, 980px);
+		}
+	}
+</style>
