@@ -65,7 +65,7 @@ const jsonLd = {
 			makesOffer: prices.map((p) => ({
 				'@type': 'Offer',
 				price: p.price,
-				priceCurrency: 'USD',
+				priceCurrency: 'PEN',
 				availability: 'https://schema.org/InStock',
 				areaServed: [{ '@type': 'Country', name: 'Perú' }, 'Internacional'],
 				itemOffered: { '@type': 'Service', name: serviceNames[p.id], serviceType: 'Creación de contenido UGC', provider: { '@id': person } },

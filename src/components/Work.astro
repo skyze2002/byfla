@@ -5,6 +5,8 @@ import { publicAsset } from '../data/assets';
 const items = portfolio.map((it, i) => ({
 	...it,
 	cover: publicAsset(`/images/portfolio/${it.id}.jpg`),
+	// Publicación de fotos (no video): sin botón de play
+	isPost: it.embed.includes('/p/'),
 	r: i % 2 ? 1.5 : -1.5,
 	catKey: categories.find((c) => c.id === it.category)?.key,
 }));
@@ -53,7 +55,7 @@ const filters = [
 			{
 				items.map((it) => (
 					<li
-						class={`wcard wcard--${it.tone}`}
+						class:list={['wcard', `wcard--${it.tone}`, { 'wcard--photo': it.cover }]}
 						data-cat={it.category}
 						data-reveal="tilt"
 						data-tilt="10"
@@ -82,12 +84,14 @@ const filters = [
 									</span>
 								)}
 							</span>
-							<span class="wcard__play" aria-hidden="true">
-								<span class="wcard__ping" />
-								<span class="wcard__tri">▶</span>
-							</span>
+							{!it.isPost && (
+								<span class="wcard__play" aria-hidden="true">
+									<span class="wcard__ping" />
+									<span class="wcard__tri">▶</span>
+								</span>
+							)}
 							<span class="wcard__title" data-i18n={it.titleKey}>{es(it.titleKey)}</span>
-							<span class="sr-only" data-i18n="work_play">{es('work_play')}</span>
+							<span class="sr-only" data-i18n={it.isPost ? 'work_view' : 'work_play'}>{es(it.isPost ? 'work_view' : 'work_play')}</span>
 						</button>
 					</li>
 				))
@@ -243,6 +247,20 @@ const filters = [
 		height: 100%;
 		object-fit: cover;
 		transition: transform 0.7s var(--ease-out);
+	}
+
+	/* Con foto: degradado arriba y abajo para que se lean la etiqueta y el título */
+	.wcard--photo .wcard__media::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, rgb(26 20 20 / 0.45), transparent 22%, transparent 62%, rgb(26 20 20 / 0.75));
+		pointer-events: none;
+	}
+
+	.wcard--photo .wcard__cat,
+	.wcard--photo .wcard__title {
+		color: var(--cream);
 	}
 
 	.wcard:hover .wcard__media img {

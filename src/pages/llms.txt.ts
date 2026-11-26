@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { site, contact, metrics, peruAudience, prices, brands, faqKeys, compact, t, es } from '../data/site';
+import { site, contact, metrics, peruAudience, prices, brands, faqKeys, compact, soles, t, es } from '../data/site';
 import { serviceNames } from '../data/seo';
 
 // Resumen en texto plano para buscadores con IA (ChatGPT, Perplexity, Gemini),
@@ -18,8 +18,8 @@ export const GET: APIRoute = () => {
 - Audiencia: ${peruAudience}% en Perú, mayoría de 18 a 34 años.
 - Marcas con las que colaboró: ${brands.map((b) => b.name).join(', ')}.
 
-## Tarifas de referencia (USD)
-${prices.map((p) => `- ${serviceNames[p.id]}: $${p.price}`).join('\n')}
+## Tarifas de referencia (soles)
+${prices.map((p) => `- ${serviceNames[p.id]}: ${soles(p.price)}`).join('\n')}
 - ${es('rates_negotiate')}
 
 ## Preguntas frecuentes

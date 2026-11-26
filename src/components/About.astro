@@ -18,7 +18,21 @@ const photos = aboutPhotos.map((p) => ({ ...p, src: publicAsset(p.src) }));
 						style={`--r:${p.r}deg;--tilt:${p.r - 9}deg;--fallback:var(--${p.tone})`}
 					>
 						<span class="tape" aria-hidden="true" style={`--tape-r:${i % 2 ? 5 : -5}deg`} />
-						{p.src ? (
+						{'video' in p && p.src ? (
+							<video
+								class="polaroid__img"
+								src={p.video}
+								poster={p.src}
+								style={`object-position:${p.pos}`}
+								aria-label={es(p.altKey)}
+								data-i18n-aria={p.altKey}
+								autoplay
+								muted
+								loop
+								playsinline
+								preload="metadata"
+							/>
+						) : p.src ? (
 							<img
 								class="polaroid__img"
 								src={p.src}
@@ -75,7 +89,7 @@ const photos = aboutPhotos.map((p) => ({ ...p, src: publicAsset(p.src) }));
 			<ul class="about__gear" data-stagger="0.12">
 				{
 					gear.map((g, i) => (
-						<li class="gear" data-reveal="up" data-tilt="10" style={`--r:${i ? 1.5 : -1.5}deg`}>
+						<li class="gear" data-reveal="up" data-tilt="10" style={`--r:${i % 2 ? 1.5 : -1.5}deg`}>
 							<span class="gear__rec">
 								<i aria-hidden="true" />
 								<span data-i18n="rec">{es('rec')}</span>
@@ -242,6 +256,10 @@ const photos = aboutPhotos.map((p) => ({ ...p, src: publicAsset(p.src) }));
 		background: var(--pink);
 	}
 
+	.gear:nth-child(3) .gear__icon {
+		background: var(--butter);
+	}
+
 	.gear__name {
 		font-family: var(--font-display);
 		font-weight: 400;
@@ -288,6 +306,11 @@ const photos = aboutPhotos.map((p) => ({ ...p, src: publicAsset(p.src) }));
 	@media (min-width: 720px) {
 		.about__gear {
 			grid-template-columns: 1fr 1fr;
+		}
+
+		/* Si queda una tarjeta sola en la última fila, ocupa todo el ancho */
+		.gear:last-child:nth-child(odd) {
+			grid-column: 1 / -1;
 		}
 	}
 

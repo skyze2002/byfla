@@ -47,7 +47,6 @@ export const serviceNames: Record<string, string> = {
 	post: 'Post de Instagram',
 	tiktok: 'Video de TikTok con temática específica',
 	replica: 'Pack TikTok + Reel',
-	'uso-imagen': 'Uso de imagen para eventos y lanzamientos',
 };
 
 export const ogImage = { url: `${site.url}/og-image.jpg`, path: '/og-image.jpg', w: 1200, h: 630 };
