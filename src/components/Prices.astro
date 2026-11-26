@@ -18,12 +18,10 @@ import { prices, es } from '../data/site';
 				prices.map((p) => (
 					<li
 						class:list={['pcard', `pcard--${p.tone}`, { 'pcard--featured': 'featured' in p }]}
-						data-reveal="tilt"
-						data-tilt="8"
-						style={`--r:${p.r}deg;--tilt:${p.r * 4 - 3}deg`}
+						data-reveal="up"
 					>
 						{'featured' in p && (
-							<span class="sticker sticker--butter pcard__fav alive" data-reveal="pop" style="--r:8deg;--d:0.7s;--wd:0.5s" data-i18n="rates_fav">
+							<span class="sticker sticker--butter pcard__fav" data-i18n="rates_fav">
 								{es('rates_fav')}
 							</span>
 						)}
@@ -37,7 +35,7 @@ import { prices, es } from '../data/site';
 						<p class="pcard__desc" data-i18n={p.descKey}>{es(p.descKey)}</p>
 						<p class="pcard__note" data-i18n={p.noteKey}>{es(p.noteKey)}</p>
 						{'featured' in p && (
-							<p class="sticker sticker--ink pcard__saving" style="--r:-3deg" data-i18n="rates_saving">
+							<p class="sticker sticker--ink pcard__saving" data-i18n="rates_saving">
 								{es('rates_saving')}
 							</p>
 						)}
@@ -70,7 +68,7 @@ import { prices, es } from '../data/site';
 
 
 		<p class="prices__travel" data-reveal="up">
-			<strong data-i18n="rates_note_label">{es('rates_note_label')}</strong>
+			<strong data-i18n="rates_note_label">{es('rates_note_label')}</strong>{' '}
 			<span data-i18n="rates_note">{es('rates_note')}</span>
 		</p>
 	</div>
@@ -100,10 +98,14 @@ import { prices, es } from '../data/site';
 		background: var(--bg);
 		color: var(--fg);
 		box-shadow: 6px 6px 0 var(--ink);
+		transition:
+			translate 0.3s var(--ease-out),
+			box-shadow 0.3s var(--ease-out);
 	}
 
 	.pcard:hover {
-		box-shadow: 12px 12px 0 var(--ink);
+		translate: -2px -2px;
+		box-shadow: 8px 8px 0 var(--ink);
 	}
 
 	.pcard--sky { --bg: var(--sky); }
@@ -143,16 +145,19 @@ import { prices, es } from '../data/site';
 	}
 
 	.pcard__note {
-		font-family: var(--font-hand);
-		font-size: 1.35rem;
-		line-height: 1.15;
-		opacity: 0.9;
+		margin-top: 8px;
+		padding-top: 10px;
+		border-top: 1.5px solid color-mix(in srgb, currentColor 30%, transparent);
+		font-size: 0.92rem;
+		line-height: 1.4;
+		opacity: 0.85;
 	}
 
 	.pcard__saving {
 		align-self: flex-start;
-		margin-top: 6px;
-		font-size: 0.9rem;
+		margin-top: 10px;
+		font-size: 0.8rem;
+		box-shadow: none;
 	}
 
 	.pcard__foot {
@@ -187,7 +192,10 @@ import { prices, es } from '../data/site';
 		top: -20px;
 		right: 14px;
 		z-index: 2;
-		font-size: 0.9rem;
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		color: var(--ink);
 	}
 

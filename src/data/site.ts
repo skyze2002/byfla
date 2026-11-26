@@ -146,12 +146,12 @@ export const brandStats = [
 /* ---------- Tarifas ---------- */
 
 export const prices = [
-	{ id: 'historia', select: 'historia', price: 100, tone: 'sky', platform: 'Instagram', nameKey: 'rate_story_name', descKey: 'rate_story_desc', noteKey: 'rate_story_value', r: -1.5 },
-	{ id: 'reel', select: 'reel', price: 350, tone: 'butter', platform: 'Instagram', nameKey: 'rate_reel_name', descKey: 'rate_reel_desc', noteKey: 'rate_reel_value', r: 1.2 },
-	{ id: 'post', select: 'post', price: 350, tone: 'pink', platform: 'Instagram', nameKey: 'rate_post_name', descKey: 'rate_post_desc', noteKey: 'rate_post_value', r: -1 },
-	{ id: 'tiktok', select: 'tiktok', price: 400, tone: 'cherry', platform: 'TikTok', nameKey: 'rate_tiktok_short', subKey: 'rate_tiktok_name', descKey: 'rate_tiktok_desc', noteKey: 'rate_tiktok_value', r: 1.6 },
-	{ id: 'replica', select: 'replica', price: 450, tone: 'tomato', platformKey: 'rate_pack_platform', nameKey: 'rate_replica_name', descKey: 'rate_replica_desc', noteKey: 'rate_replica_value', r: -0.8, featured: true },
-	{ id: 'uso-imagen', select: 'uso-imagen', price: 200, tone: 'leaf', platformKey: 'rate_events_platform', nameKey: 'rate_image_name', descKey: 'rate_image_desc', noteKey: 'rate_image_value', r: 1 },
+	{ id: 'historia', select: 'historia', price: 100, tone: 'sky', platform: 'Instagram', nameKey: 'rate_story_name', descKey: 'rate_story_desc', noteKey: 'rate_story_value' },
+	{ id: 'reel', select: 'reel', price: 350, tone: 'butter', platform: 'Instagram', nameKey: 'rate_reel_name', descKey: 'rate_reel_desc', noteKey: 'rate_reel_value' },
+	{ id: 'post', select: 'post', price: 350, tone: 'pink', platform: 'Instagram', nameKey: 'rate_post_name', descKey: 'rate_post_desc', noteKey: 'rate_post_value' },
+	{ id: 'tiktok', select: 'tiktok', price: 400, tone: 'cherry', platform: 'TikTok', nameKey: 'rate_tiktok_short', subKey: 'rate_tiktok_name', descKey: 'rate_tiktok_desc', noteKey: 'rate_tiktok_value' },
+	{ id: 'replica', select: 'replica', price: 450, tone: 'tomato', platformKey: 'rate_pack_platform', nameKey: 'rate_replica_name', descKey: 'rate_replica_desc', noteKey: 'rate_replica_value', featured: true },
+	{ id: 'uso-imagen', select: 'uso-imagen', price: 200, tone: 'leaf', platformKey: 'rate_events_platform', nameKey: 'rate_image_name', descKey: 'rate_image_desc', noteKey: 'rate_image_value' },
 ] as const;
 
 const priceOf = (id: string) => prices.find((p) => p.id === id)!.price;
