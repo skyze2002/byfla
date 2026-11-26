@@ -1,5 +1,7 @@
 ---
 import { prices, es } from '../data/site';
+
+const amount = (n: number) => n.toLocaleString('en-US');
 ---
 
 <section id="tarifas" class="section prices">
@@ -41,8 +43,8 @@ import { prices, es } from '../data/site';
 						)}
 						<div class="pcard__foot">
 							<p class="pcard__price">
-								<span class="pcard__cur">USD</span>
-								<span class="pcard__amount">${p.price}</span>
+								<span class="pcard__cur">S/</span>
+								<span class="pcard__amount">{amount(p.price)}</span>
 							</p>
 							<a class="btn btn--paper btn--sm" href="#contacto" data-pick={p.select}>
 								<span data-i18n="rates_want">{es('rates_want')}</span>
@@ -249,6 +251,10 @@ import { prices, es } from '../data/site';
 			grid-template-columns: repeat(2, 1fr);
 		}
 
+		.pcard--featured {
+			grid-column: 1 / -1;
+		}
+
 		.prices__custom {
 			grid-column: 1 / -1;
 			grid-template-columns: 1fr auto;
@@ -262,14 +268,12 @@ import { prices, es } from '../data/site';
 			gap: 30px;
 		}
 
-		.pcard--featured,
-		.prices__custom {
+		.pcard--featured {
 			grid-column: span 2;
 		}
 
 		.prices__custom {
 			margin-top: 0;
-			grid-template-columns: 1fr;
 		}
 	}
 </style>
