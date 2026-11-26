@@ -112,7 +112,7 @@ export const portfolio: {
 	embed: string;
 	tone: Tone;
 }[] = [
-	{ id: '01', platform: 'instagram', category: 'moda', titleKey: 'w_01', embed: 'https://www.instagram.com/reel/DbHb8L9gO3J/embed/', tone: 'butter' },
+	{ id: '01', platform: 'instagram', category: 'moda', titleKey: 'w_01', embed: 'https://www.instagram.com/reel/DeIloT8AX1F/embed/', tone: 'butter' },
 	{ id: '02', platform: 'instagram', category: 'moda', titleKey: 'w_02', embed: 'https://www.instagram.com/p/DYAQUUngDAg/embed/', tone: 'pink' },
 	{ id: '03', platform: 'instagram', category: 'moda', titleKey: 'w_03', embed: 'https://www.instagram.com/p/DXaAdCUgAWy/embed/', tone: 'sky' },
 	{ id: '04', platform: 'tiktok', category: 'todo', titleKey: 'w_04', embed: 'https://www.tiktok.com/embed/v2/7610254529031851271', tone: 'tomato' },
@@ -334,7 +334,7 @@ export const t = {
 		cursor_view: '▶ Ver',
 		viewer_label: 'Reproductor de contenido',
 		viewer_close: 'Cerrar reproductor',
-		w_01: 'Reel de Instagram',
+		w_01: 'Vélez',
 		w_02: 'Publicación',
 		w_03: 'Publicación',
 		w_04: 'Mi Primer Tatuaje',
@@ -534,7 +534,7 @@ export const t = {
 		cursor_view: '▶ Watch',
 		viewer_label: 'Content player',
 		viewer_close: 'Close player',
-		w_01: 'Instagram Reel',
+		w_01: 'Vélez',
 		w_02: 'Post',
 		w_03: 'Post',
 		w_04: 'My First Tattoo',
