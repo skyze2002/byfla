@@ -180,7 +180,7 @@ export const niches = [
 
 export const gear = [
 	{ name: 'DJI Osmo Pocket 3', descKey: 'gear_dji_desc', icon: '◉' },
-	{ name: 'iPhone 17 Pro', descKey: 'gear_iphone_desc', icon: '▣' },
+	{ name: 'iPhone 18 Pro Max', descKey: 'gear_iphone_desc', icon: '▣' },
 ];
 
 export const aboutPhotos = [
