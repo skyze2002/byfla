@@ -45,16 +45,18 @@ export const metrics = {
 	tiktokFollowers: 92100,
 	instagramFollowers: 13100,
 	tiktokLikes: 3600000,
-	peruTiktok: 62.5,
-	peruInstagram: 84.9,
 	yearsCreating: 3,
 };
 
-/** % de audiencia en Perú sumando ambas redes, ponderado por seguidores. */
-export const peruAudience = Math.round(
-	(metrics.tiktokFollowers * metrics.peruTiktok + metrics.instagramFollowers * metrics.peruInstagram) /
-		(metrics.tiktokFollowers + metrics.instagramFollowers),
-);
+/** % de seguidores por país en cada red (TikTok Studio e Instagram). */
+const geoTiktok = { pe: 62.5, mx: 3, cl: 1.9 };
+const geoInstagram = { pe: 84.9, mx: 1.5, cl: 3.4 };
+/** Promedio simple de ambas redes, con un decimal. */
+const avgGeo = (k: keyof typeof geoTiktok) => Math.round((geoTiktok[k] + geoInstagram[k]) * 5) / 10;
+
+export const peruInstagram = Math.round(geoInstagram.pe);
+/** % de audiencia en Perú: promedio de TikTok e Instagram. */
+export const peruAudience = Math.round(avgGeo('pe'));
 
 export const audience = {
 	ageTiktok: [
@@ -68,9 +70,9 @@ export const audience = {
 		{ range: '18-24', pct: 16.5 },
 	],
 	geo: [
-		{ flag: '🇵🇪', key: 'geo_pe', pct: metrics.peruTiktok },
-		{ flag: '🇲🇽', key: 'geo_mx', pct: 3 },
-		{ flag: '🇨🇱', key: 'geo_cl', pct: 1.9 },
+		{ flag: '🇵🇪', key: 'geo_pe', pct: avgGeo('pe') },
+		{ flag: '🇨🇱', key: 'geo_cl', pct: avgGeo('cl') },
+		{ flag: '🇲🇽', key: 'geo_mx', pct: avgGeo('mx') },
 	],
 };
 
@@ -215,7 +217,7 @@ export const faqKeys = ['faq_1', 'faq_2', 'faq_3', 'faq_4', 'faq_5', 'faq_6'] as
 const tt = metrics.tiktokFollowers;
 const likes = compact(metrics.tiktokLikes);
 const peru = peruAudience;
-const peruIg = Math.round(metrics.peruInstagram);
+const peruIg = peruInstagram;
 const minPrice = Math.min(...prices.map((p) => p.price));
 const maxPrice = Math.max(...prices.map((p) => p.price));
 const ig = compact(metrics.instagramFollowers);
@@ -302,7 +304,7 @@ export const t = {
 		stats_h3: 'solos',
 		stats_demo_tiktok: `Edad · TikTok ${contact.tiktok.handle}`,
 		stats_demo_ig: `Edad · Instagram ${contact.instagram.handle}`,
-		stats_geo: `Ubicación · TikTok ${contact.tiktok.handle}`,
+		stats_geo: 'Ubicación · TikTok + Instagram',
 		stats_note: '¡mi gente! ♡',
 		geo_pe: 'Perú',
 		geo_mx: 'México',
@@ -505,7 +507,7 @@ export const t = {
 		stats_h3: 'for themselves',
 		stats_demo_tiktok: `Age · TikTok ${contact.tiktok.handle}`,
 		stats_demo_ig: `Age · Instagram ${contact.instagram.handle}`,
-		stats_geo: `Location · TikTok ${contact.tiktok.handle}`,
+		stats_geo: 'Location · TikTok + Instagram',
 		stats_note: 'my people! ♡',
 		geo_pe: 'Peru',
 		geo_mx: 'Mexico',
