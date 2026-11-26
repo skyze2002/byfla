@@ -18,7 +18,21 @@ const photos = aboutPhotos.map((p) => ({ ...p, src: publicAsset(p.src) }));
 						style={`--r:${p.r}deg;--tilt:${p.r - 9}deg;--fallback:var(--${p.tone})`}
 					>
 						<span class="tape" aria-hidden="true" style={`--tape-r:${i % 2 ? 5 : -5}deg`} />
-						{p.src ? (
+						{'video' in p && p.src ? (
+							<video
+								class="polaroid__img"
+								src={p.video}
+								poster={p.src}
+								style={`object-position:${p.pos}`}
+								aria-label={es(p.altKey)}
+								data-i18n-aria={p.altKey}
+								autoplay
+								muted
+								loop
+								playsinline
+								preload="metadata"
+							/>
+						) : p.src ? (
 							<img
 								class="polaroid__img"
 								src={p.src}

@@ -187,9 +187,9 @@ export const gear = [
 ];
 
 export const aboutPhotos = [
-	{ src: '/images/foto2.jpg', w: 1200, h: 1600, altKey: 'alt_about', captionKey: 'cap_about', tone: 'pink', r: -3, parallax: 0.06 },
+	{ src: '/images/foto2.jpg', w: 960, h: 1280, altKey: 'alt_about', captionKey: 'cap_about', tone: 'pink', r: -3, parallax: 0.06 },
 	{ src: '/images/foto3.jpg', w: 900, h: 1200, altKey: 'alt_about_2', captionKey: 'cap_bts', tone: 'sky', r: 6, parallax: 0.16 },
-	{ src: '/images/foto4.jpg', w: 900, h: 1200, altKey: 'alt_about_3', captionKey: 'cap_set', tone: 'butter', r: -7, parallax: 0.1 },
+	{ src: '/images/en-set.jpg', video: '/videos/en-set.mp4', pos: '50% 85%', w: 576, h: 1024, altKey: 'alt_about_3', captionKey: 'cap_set', tone: 'butter', r: -7, parallax: 0.1 },
 ] as const;
 
 export const heroPhoto = { src: '/images/foto1.jpg', w: 960, h: 1280 };
@@ -295,9 +295,9 @@ export const t = {
 		niche_music: 'Música',
 		niche_concerts: 'Conciertos',
 		niche_lifestyle: 'Lifestyle',
-		alt_about: 'Flavia López grabando contenido para marcas en Arequipa',
-		alt_about_2: 'Flavia López grabando contenido',
-		alt_about_3: 'Flavia López en una sesión',
+		alt_about: 'Flavia López en el centro histórico de Arequipa',
+		alt_about_2: 'Flavia López detrás de cámaras en una sesión de fotos',
+		alt_about_3: 'Flavia López posando en un set de fotos',
 		cap_about: 'arequipa ♡',
 		cap_bts: 'detrás de cámaras',
 		cap_set: 'en set ✶',
@@ -497,9 +497,9 @@ export const t = {
 		niche_music: 'Music',
 		niche_concerts: 'Concerts',
 		niche_lifestyle: 'Lifestyle',
-		alt_about: 'Flavia López filming brand content in Arequipa',
-		alt_about_2: 'Flavia López filming content',
-		alt_about_3: 'Flavia López on a shoot',
+		alt_about: 'Flavia López in the historic center of Arequipa',
+		alt_about_2: 'Flavia López behind the scenes at a photo shoot',
+		alt_about_3: 'Flavia López posing on a photo set',
 		cap_about: 'arequipa ♡',
 		cap_bts: 'behind the scenes',
 		cap_set: 'on set ✶',
