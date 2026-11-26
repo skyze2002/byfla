@@ -5,6 +5,8 @@ import { publicAsset } from '../data/assets';
 const items = portfolio.map((it, i) => ({
 	...it,
 	cover: publicAsset(`/images/portfolio/${it.id}.jpg`),
+	// Publicación de fotos (no video): sin botón de play
+	isPost: it.embed.includes('/p/'),
 	r: i % 2 ? 1.5 : -1.5,
 	catKey: categories.find((c) => c.id === it.category)?.key,
 }));
@@ -82,12 +84,14 @@ const filters = [
 									</span>
 								)}
 							</span>
-							<span class="wcard__play" aria-hidden="true">
-								<span class="wcard__ping" />
-								<span class="wcard__tri">▶</span>
-							</span>
+							{!it.isPost && (
+								<span class="wcard__play" aria-hidden="true">
+									<span class="wcard__ping" />
+									<span class="wcard__tri">▶</span>
+								</span>
+							)}
 							<span class="wcard__title" data-i18n={it.titleKey}>{es(it.titleKey)}</span>
-							<span class="sr-only" data-i18n="work_play">{es('work_play')}</span>
+							<span class="sr-only" data-i18n={it.isPost ? 'work_view' : 'work_play'}>{es(it.isPost ? 'work_view' : 'work_play')}</span>
 						</button>
 					</li>
 				))
