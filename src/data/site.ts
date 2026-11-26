@@ -42,28 +42,37 @@ export const contact = {
 /* ---------- Métricas (una sola fuente para todo el sitio) ---------- */
 
 export const metrics = {
-	tiktokFollowers: 93400,
-	instagramFollowers: 11600,
+	tiktokFollowers: 92100,
+	instagramFollowers: 13100,
 	tiktokLikes: 3600000,
-	peruAudience: 88,
 	yearsCreating: 3,
 };
 
+/** % de seguidores por país en cada red (TikTok Studio e Instagram). */
+const geoTiktok = { pe: 62.5, mx: 3, cl: 1.9 };
+const geoInstagram = { pe: 84.9, mx: 1.5, cl: 3.4 };
+/** Promedio simple de ambas redes, con un decimal. */
+const avgGeo = (k: keyof typeof geoTiktok) => Math.round((geoTiktok[k] + geoInstagram[k]) * 5) / 10;
+
+export const peruInstagram = Math.round(geoInstagram.pe);
+/** % de audiencia en Perú: promedio de TikTok e Instagram. */
+export const peruAudience = Math.round(avgGeo('pe'));
+
 export const audience = {
 	ageTiktok: [
-		{ range: '18-24', pct: 47.5 },
-		{ range: '25-34', pct: 34.9 },
-		{ range: '35+', pct: 17.6 },
+		{ range: '25-34', pct: 40.4 },
+		{ range: '18-24', pct: 37.8 },
+		{ range: '35+', pct: 21.8 },
 	],
 	ageInstagram: [
-		{ range: '25-34', pct: 51 },
-		{ range: '18-24', pct: 29.2 },
-		{ range: '35+', pct: 19.8 },
+		{ range: '25-34', pct: 55.5 },
+		{ range: '35+', pct: 27.8 },
+		{ range: '18-24', pct: 16.5 },
 	],
 	geo: [
-		{ flag: '🇵🇪', key: 'geo_pe', pct: 88.4 },
-		{ flag: '🇺🇸', key: 'geo_us', pct: 2 },
-		{ flag: '🇪🇸', key: 'geo_es', pct: 1.3 },
+		{ flag: '🇵🇪', key: 'geo_pe', pct: avgGeo('pe') },
+		{ flag: '🇨🇱', key: 'geo_cl', pct: avgGeo('cl') },
+		{ flag: '🇲🇽', key: 'geo_mx', pct: avgGeo('mx') },
 	],
 };
 
@@ -72,7 +81,7 @@ export const metricCards = [
 	{ key: 'tiktok', value: metrics.tiktokFollowers, suffix: '+', format: 'compact', labelKey: 'm_tiktok', sub: contact.tiktok.handle, tone: 'pink' as Tone },
 	{ key: 'instagram', value: metrics.instagramFollowers, suffix: '+', format: 'compact', labelKey: 'm_instagram', sub: contact.instagram.handle, tone: 'sky' as Tone },
 	{ key: 'likes', value: metrics.tiktokLikes, suffix: '+', format: 'compact', labelKey: 'm_likes', sub: 'TikTok', tone: 'butter' as Tone },
-	{ key: 'peru', value: metrics.peruAudience, suffix: '%', format: 'int', labelKey: 'm_peru', sub: '🇵🇪', tone: 'tomato' as Tone },
+	{ key: 'peru', value: peruAudience, suffix: '%', format: 'int', labelKey: 'm_peru', sub: '🇵🇪', tone: 'tomato' as Tone },
 ];
 
 /* ---------- Portafolio ---------- */
@@ -207,7 +216,8 @@ export const faqKeys = ['faq_1', 'faq_2', 'faq_3', 'faq_4', 'faq_5', 'faq_6'] as
 
 const tt = metrics.tiktokFollowers;
 const likes = compact(metrics.tiktokLikes);
-const peru = metrics.peruAudience;
+const peru = peruAudience;
+const peruIg = peruInstagram;
 const minPrice = Math.min(...prices.map((p) => p.price));
 const maxPrice = Math.max(...prices.map((p) => p.price));
 const ig = compact(metrics.instagramFollowers);
@@ -294,11 +304,11 @@ export const t = {
 		stats_h3: 'solos',
 		stats_demo_tiktok: `Edad · TikTok ${contact.tiktok.handle}`,
 		stats_demo_ig: `Edad · Instagram ${contact.instagram.handle}`,
-		stats_geo: 'Distribución geográfica',
+		stats_geo: 'Ubicación · TikTok + Instagram',
 		stats_note: '¡mi gente! ♡',
 		geo_pe: 'Perú',
-		geo_us: 'EEUU',
-		geo_es: 'España',
+		geo_mx: 'México',
+		geo_cl: 'Chile',
 		// Portafolio
 		portfolio_eyebrow: 'Portafolio',
 		portfolio_h1: 'Contenido que',
@@ -368,7 +378,7 @@ export const t = {
 		rate_replica_desc: 'El mismo contenido adaptado a ambas plataformas',
 		rate_image_desc: 'Licencia de uso comercial del contenido',
 		rate_story_value: 'Ideal para promociones y lanzamientos rápidos',
-		rate_reel_value: `Audiencia 25-34 años, ${peru}% peruana. Entrega en 5 días.`,
+		rate_reel_value: `Audiencia 25-34 años, ${peruIg}% peruana. Entrega en 5 días.`,
 		rate_post_value: 'Contenido permanente con alto potencial de guardados',
 		rate_tiktok_value: `${roundK(tt)} seguidores, ${likes} likes acumulados. Máximo alcance orgánico.`,
 		rate_replica_value: 'Presencia simultánea en TikTok e Instagram. Doble alcance.',
@@ -497,11 +507,11 @@ export const t = {
 		stats_h3: 'for themselves',
 		stats_demo_tiktok: `Age · TikTok ${contact.tiktok.handle}`,
 		stats_demo_ig: `Age · Instagram ${contact.instagram.handle}`,
-		stats_geo: 'Geographic distribution',
+		stats_geo: 'Location · TikTok + Instagram',
 		stats_note: 'my people! ♡',
 		geo_pe: 'Peru',
-		geo_us: 'USA',
-		geo_es: 'Spain',
+		geo_mx: 'Mexico',
+		geo_cl: 'Chile',
 		portfolio_eyebrow: 'Portfolio',
 		portfolio_h1: 'Content that',
 		portfolio_h2: 'converts',
@@ -568,7 +578,7 @@ export const t = {
 		rate_replica_desc: 'Same content adapted to both platforms',
 		rate_image_desc: 'Commercial use license for the content',
 		rate_story_value: 'Ideal for quick promotions and product launches',
-		rate_reel_value: `Audience 25-34 years old, ${peru}% Peruvian. Delivered in 5 days.`,
+		rate_reel_value: `Audience 25-34 years old, ${peruIg}% Peruvian. Delivered in 5 days.`,
 		rate_post_value: 'Permanent content with high save potential',
 		rate_tiktok_value: `${roundK(tt)} followers, ${likes} accumulated likes. Maximum organic reach.`,
 		rate_replica_value: 'Simultaneous presence on TikTok and Instagram. Double the reach.',
