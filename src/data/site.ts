@@ -181,6 +181,7 @@ export const niches = [
 export const gear = [
 	{ name: 'DJI Osmo Pocket 3', descKey: 'gear_dji_desc', icon: '◉' },
 	{ name: 'iPhone 18 Pro Max', descKey: 'gear_iphone_desc', icon: '▣' },
+	{ name: 'Lumix ZS99', descKey: 'gear_lumix_desc', icon: '◎' },
 ];
 
 export const aboutPhotos = [
@@ -284,6 +285,7 @@ export const t = {
 		about_niches_label: 'Mis nichos',
 		gear_dji_desc: 'Vídeo estabilizado, vlogs y contenido en movimiento',
 		gear_iphone_desc: 'Reels, fotos lifestyle y contenido nativo de plataforma',
+		gear_lumix_desc: 'Fotos de producto, viajes y zoom óptico 30x',
 		rec: 'REC',
 		niche_fashion: 'Moda',
 		niche_travel: 'Viajes',
@@ -488,6 +490,7 @@ export const t = {
 		about_niches_label: 'My niches',
 		gear_dji_desc: 'Stabilized video, vlogs and on-the-go content',
 		gear_iphone_desc: 'Reels, lifestyle photos and native platform content',
+		gear_lumix_desc: 'Product shots, travel and 30x optical zoom',
 		rec: 'REC',
 		niche_fashion: 'Fashion',
 		niche_travel: 'Travel',
